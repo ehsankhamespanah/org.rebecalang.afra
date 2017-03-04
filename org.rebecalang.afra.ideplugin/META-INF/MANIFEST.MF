@@ -3,6 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: org.rebecalang.afra.ideplugin
 Bundle-SymbolicName: org.rebecalang.afra.ideplugin;singleton:=true
 Bundle-Version: 3.0.0.qualifier
+Bundle-Activator: org.rebecalang.afra.ideplugin.Activator
 Require-Bundle: javax.inject,
  org.eclipse.core.runtime,
  org.eclipse.swt,
@@ -18,5 +19,11 @@ Require-Bundle: javax.inject,
  org.eclipse.ui.ide,
  org.eclipse.jface.text,
  org.eclipse.ui.editors,
- org.eclipse.ui.console
+ org.eclipse.ui.console,
+ org.eclipse.ui.workbench,
+ org.eclipse.ui.ide.application
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Import-Package: javax.inject;version="1.0.0"
+Bundle-ActivationPolicy: lazy
+Bundle-ClassPath: libs/rmc-2.6.0-SNAPSHOT.jar,
+ .

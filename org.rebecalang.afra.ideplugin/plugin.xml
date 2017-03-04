@@ -2,88 +2,125 @@
 <?eclipse version="3.4"?>
 <plugin>
 
+ <!--<extension point="org.eclipse.ui.menus">
+		<menuContribution
+        allPopups="true"
+        locationURI="toolbar:org.eclipse.ui.main.toolbar?after=additions">
+		<toolbar
+               id="net.osgiliath.menus.colors.toolbar" label="Choose your color"  >
+            <command
+                  commandId="net.osgiliath.commands.menus.showColorsCommand"
+                  icon="icons/rebec.png"
+                  id="net.osgiliath.commands.menus.showColorsCommand.toolbar"
+                 style="pulldown">
+            </command>
+         </toolbar>
+	</menuContribution>
+		<menuContribution locationURI="menu:net.osgiliath.menus.colors.toolbar" >
+			<dynamic class="net.osgiliath.views.ColorsContributionPopupMenus"
+      			id="menu:net.osgiliath.menus.colors.items"/>
+      	</menuContribution>
+</extension>
+ 
+<extension
+         point="org.eclipse.ui.commands">
+      <category
+            id="net.osgiliath.colors.commands.category"
+            name="Colors Category">
+      </category>
+ 
+      <command
+            categoryId="net.osgiliath.colors.commands.category"
+            id="net.osgiliath.commands.menus.showColorsCommand"
+            name="Add to Clipboard Command">
+            <commandParameter
+    			id="color.name"
+    			name="color.name"
+    			optional="false">
+			</commandParameter>
+      </command>
+</extension>
+ 
+ <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            class="net.osgiliath.views.ColorContributionPopupMenusHandler"
+            commandId="net.osgiliath.commands.menus.showColorsCommand">
+      </handler>
+</extension>
+-->
+
    <extension
          id="eclipse-repository"
          point="org.eclipse.core.runtime.products">
       <product
-            application="org.rebecalang.afra.ideplugin.application"
-            name="Example Product">
+            application="org.rebecalang.afra.ideplugin.Application"
+            name="Afra Product">
       </product>
    </extension>
-
-
-
    <extension
-         id="product"
-         point="org.eclipse.core.runtime.products">
-      <product
-            name="org.rebecalang.afra.ideplugins"
-            application="org.eclipse.e4.ui.workbench.swt.E4Application">
-         <property
-               name="applicationCSS"
-               value="platform:/plugin/org.rebecalang.afra.ideplugin/css/default.css">
-         </property>
-         <property
-               name="appName"
-               value="org.rebecalang.afra.ideplugins">
-         </property>
-      </product>
+         id="application"
+         point="org.eclipse.core.runtime.applications">
+      <application>
+         <run
+               class="org.rebecalang.afra.ideplugin.Application">
+         </run>
+      </application>
    </extension>
 
-<extension
-         point="org.eclipse.ui.perspectives">
-      <perspective
-            name="RCP Perspective"
-            class="org.rebecalang.ide.afra.Perspective"
-            id="test.rcp.perspective">
-      </perspective>
-   </extension>
+   <!--<extension point="org.eclipse.ui.splashHandlers">
+      <splashHandler
+            class="org.rebecalang.afra.ideplugin.SplashHandler"
+            id="org.rebecalang.afra.ideplugin.splashHandler">
+      </splashHandler>
+      <splashHandlerProductBinding
+            productId="org.rebecalang.afra.ideplugin.product"
+            splashId="org.rebecalang.afra.ideplugin.splashHandler">
+      </splashHandlerProductBinding>
+   </extension> -->
    
-<extension id="product_test" point="org.eclipse.core.runtime.products">
-  <product application="org.rebecalang.ide.afra.application" name="My Product">
-    <property name="appName" value="My Product"> </property>
-    <property name="applicationXMI" value="org.rebecalang.ide.afra/Application.e4xmi"> </property>
+<extension id="product" point="org.eclipse.core.runtime.products">
+  <product application="org.rebecalang.afra.ideplugin.application" name="Afra">
+    <property name="appName" value="Afra"> </property>
+    <property name="applicationXMI" value="org.rebecalang.afra.ideplugin/Application.e4xmi"> </property>
+    <property
+          name="startupProgressRect"
+          value="5,275,445,15">
+    </property>
+    <property
+          name="startupForegroundColor"
+          value="FFFFFF">
+    </property>
+    <property
+          name="startupMessageRect"
+          value="7,252,445,20">
+    </property>
+    <property
+          name="preferenceCustomization"
+          value="plugin_customization.ini">
+    </property>
   </product>
 </extension>
+
+   
 <extension
       point="org.eclipse.ui.newWizards">
    <category
-         id="org.rebecalang.ide.afra.category1"
+         id="org.rebecalang.afra.ideplugin.rebecacategory"
          name="Rebeca">
    </category>
    <wizard
-         category="org.rebecalang.ide.afra.category1"
-         class="org.rebecalang.ide.afra.NewWizard1"
-         hasPages="true"
+         category="org.rebecalang.afra.ideplugin.rebecacategory"
+         class="org.rebecalang.afra.ideplugin.wizard.newproject.NewProjectWizard"
          icon="icons/R.png"
-         id="org.rebecalang.ide.afra.wizard1"
+         id="org.rebecalang.afra.ideplugin.rebecaprojectwizard"
          name="Rebeca Project">
    </wizard>
 </extension>
 <extension
-      point="org.eclipse.ui.views">
-   <view
-         class="org.eclipse.ui.navigator.CommonNavigator"
-         id="org.rebecalang.ide.afra.navigator"
-         name="Rebeca Project Navigator">
-   </view>
-   <view
-         class="org.rebecalang.ide.afra.views.counterexample.rebeca.SystemStateView"
-         icon="icons/sample.gif"
-         id="org.rebecalang.ide.afra.SystemStateView"
-         name="System State">
-   </view>
-   <view
-         class="org.rebecalang.ide.afra.views.counterexample.rebeca.CounterExampleView"
-         icon="icons/sample.gif"
-         id="org.rebecalang.ide.afra.views.counterexample.rebeca.CounterExampleView"
-         name="Verification Result">
-   </view>
-</extension>
-<extension
       point="org.eclipse.ui.navigator.viewer">
    <viewerActionBinding
-         viewerId="org.rebecalang.ide.afra.navigator">
+         viewerId="org.rebecalang.afra.ideplugin.navigator">
       <includes>
          <actionExtension
                pattern="org.eclipse.ui.navigator.resources.*">
@@ -91,7 +128,7 @@
       </includes>
    </viewerActionBinding>
    <viewerContentBinding
-         viewerId="org.rebecalang.ide.afra.navigator">
+         viewerId="org.rebecalang.afra.ideplugin.navigator">
       <includes>
          <contentExtension
                pattern="org.eclipse.ui.navigator.resourceContent">
@@ -108,141 +145,158 @@
       </includes>
    </viewerContentBinding>
 </extension>
+
 <extension
-      point="org.eclipse.ui.perspectiveExtensions">
-   <perspectiveExtension
-         targetID="org.rebecalang.ide.afra.perspective">
-      <view
-            id="org.rebecalang.ide.afra.navigator"
-            minimized="false"
-            ratio="0.25"
-            relationship="left"
-            relative="org.eclipse.ui.editorss">
-      </view>
-   </perspectiveExtension>
+      point="org.eclipse.ui.views">
+   <view
+         class="org.eclipse.ui.navigator.CommonNavigator"
+         id="org.rebecalang.afra.ideplugin.navigator"
+         name="Rebeca Project Navigator">
+   </view>
+   <view
+         class="org.rebecalang.afra.ideplugin.view.counterexample.rebeca.SystemStateView"
+         icon="icons/sample.gif"
+         id="org.rebecalang.afra.ideplugin.SystemStateView"
+         name="System State">
+   </view>
+   <view
+         class="org.rebecalang.afra.ideplugin.view.counterexample.rebeca.CounterExampleView"
+         icon="icons/sample.gif"
+         id="org.rebecalang.afra.ideplugin.views.counterexample.rebeca.CounterExampleView"
+         name="Verification Result">
+   </view>
+
+   </extension>
+
+
+<extension
+      point="org.eclipse.ui.handlers">
+      <handler
+            class="org.rebecalang.afra.ideplugin.handler.ModelCheckingHandler"
+            commandId="org.rebecalang.afra.ideplugin.command.ModelCheckingCommand">
+      </handler>
 </extension>
 <extension
-      id="org.rebecalang.ide.afra.RebecaNature"
-      name="Rebeca Nature"
-      point="org.eclipse.core.resources.natures">
-   <runtime>
-      <run
-            class="org.rebecalang.ide.afra.natures.RebecaNature">
-      </run>
-   </runtime>
-   <builder
-         id="org.rebecalang.ide.afra.sampleBuilder">
-   </builder>
+      point="org.eclipse.ui.handlers">
+      <handler
+            class="org.rebecalang.afra.ideplugin.handler.CompileHandler"
+            commandId="org.rebecalang.afra.ideplugin.command.CompileCommand">
+      </handler>
 </extension>
-<extension
-      point="org.eclipse.ui.ide.projectNatureImages">
-   <image
-         icon="icons/R.gif"
-         id="org.rebecalang.ide.afra.RebecaNature.image"
-         natureId="org.rebecalang.ide.afra.RebecaNature">
-   </image>
-</extension>
-<extension
-      point="org.eclipse.ui.commands">
-   <command
-         defaultHandler="org.rebecalang.ide.afra.handlers.Modelcheck"
-         id="org.rebecalang.ide.afra.command.ModelCheck"
-         name="ModelCheck">
-   </command>
-   <command
-         defaultHandler="org.rebecalang.ide.afra.handlers.Compile"
-         id="org.rebecalang.ide.afra.command.Compile"
-         name="Compile">
-   </command>
-</extension>
+
 <extension
       point="org.eclipse.ui.menus">
    <menuContribution
          allPopups="false"
-         locationURI="toolbar:org.eclipse.ui.main.toolbar">
+         locationURI="toolbar:org.rebecalang.afra.ideplugin.menuContributionSave">
       <toolbar
-            id="org.rebecalang.ide.afra.toolbarModel">
+            id="org.rebecalang.afra.ideplugin.toolbarSave">
          <command
-               commandId="org.rebecalang.ide.afra.command.ModelCheck"
-               icon="icons/model_check.gif"
-               label="Model Check"
+               commandId="org.rebecalang.afra.ideplugin.command.Save"
+               icon="icons/save_edit.png"
+               label="Save"
                style="push">
          </command>
       </toolbar>
+   </menuContribution>
+   <menuContribution
+         allPopups="true"
+         locationURI="toolbar:org.eclipse.ui.main.toolbar">
+      <!--<toolbar
+           id="org.rebecalang.afra.ideplugin.projects"
+           label="projects">
+        <control
+              class="org.rebecalang.afra.ideplugin.handler.ProjectsList"
+              id="org.rebecalang.afra.ideplugin.handler.ProjectsList">
+        </control>
+      </toolbar>-->
       <toolbar
-            id="org.rebecalang.ide.afra.toolbarCompile">
+            id="org.rebecalang.afra.ideplugin.toolbarModelCheck">
          <command
-               commandId="org.rebecalang.ide.afra.command.Compile"
-               icon="icons/Compile.png"
+               commandId="org.rebecalang.afra.ideplugin.command.ModelCheckingCommand"
+               icon="icons/model-checking.png"
+               label="Model Checking"
+               style="pulldown">
+         </command>
+      </toolbar>
+      <toolbar
+            id="org.rebecalang.afra.ideplugin.toolbarCompile">
+         <command
+               commandId="org.rebecalang.afra.ideplugin.command.CompileCommand"
+               icon="icons/compile.png"
                label="Compile"
                style="push">
          </command>
       </toolbar>
    </menuContribution>
+		<menuContribution locationURI="menu:org.rebecalang.afra.ideplugin.toolbarModelCheck" >
+			<dynamic class="org.rebecalang.afra.ideplugin.handler.ModelCheckingDynamicMenu"
+      			id="menu:net.osgiliath.menus.colors.items"/>
+      	</menuContribution>
 </extension>
 <extension
       point="org.eclipse.ui.editors">
    <editor
-         class="org.rebecalang.ide.afra.editors.rebeca.RebecaEditor"
+         class="org.rebecalang.afra.ideplugin.editors.rebeca.RebecaEditor"
          contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
          extensions="rebeca"
-         icon="icons/Roudabeh.gif"
-         id="org.rebecalang.ide.afra.RebecaEditor"
+         icon="icons/rebeca-file-logo.gif"
+         id="org.rebecalang.afra.ideplugin.RebecaEditor"
          name="Rebeca Editor">
    </editor>
    <editor
-         class="org.rebecalang.ide.afra.editors.rebecaprop.RebecaPropEditor"
+         class="org.rebecalang.afra.ideplugin.editors.rebecaprop.RebecaPropEditor"
          contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
          extensions="property"
-         icon="icons/property.gif"
-         id="org.rebecalang.ide.afra.RebecaPropEditor"
+         icon="icons/property-file-logo.gif"
+         id="org.rebecalang.afra.ideplugin.RebecaPropEditor"
          name="Rebeca Prop Editor">
    </editor>
 </extension>
 <extension
       point="org.eclipse.ui.editors.documentProviders">
    <provider
-         class="org.rebecalang.ide.afra.editors.rebeca.RebecaDocumentProvider"
+         class="org.rebecalang.afra.ideplugin.editors.rebeca.RebecaDocumentProvider"
          extensions=".rebeca"
-         id="org.rebecalang.ide.afra.editors.rebeca.RebecaDocumentProvider">
+         id="org.rebecalang.afra.ideplugin.editors.rebeca.RebecaDocumentProvider">
    </provider>
    <provider
-         class="org.rebecalang.ide.afra.editors.rebecaprop.RebecaPropDocumentProvider"
+         class="org.rebecalang.afra.ideplugin.editors.rebecaprop.RebecaPropDocumentProvider"
          extensions=".property"
-         id="org.rebecalang.ide.afra.editors.rebecaprop.RebecaPropDocumentProvider">
+         id="org.rebecalang.afra.ideplugin.editors.rebecaprop.RebecaPropDocumentProvider">
    </provider>
 </extension>
 <extension
       point="org.eclipse.ui.preferencePages">
    <page
-         class="org.rebecalang.ide.afra.editors.preference.ColorPreferencePage"
-         id="org.rebecalang.ide.afra.editor.rebeca"
+         class="org.rebecalang.afra.ideplugin.editors.preference.ColorPreferencePage"
+         id="org.rebecalang.afra.ideplugin.editor.rebeca"
          name="Rebeca Editor">
    </page>
    <page
-         class="org.rebecalang.ide.afra.editors.preference.RebecaPropPreferencePage"
-         id="org.rebecalang.ide.afra.editor.rebecaprop"
+         class="org.rebecalang.afra.ideplugin.editors.preference.RebecaPropPreferencePage"
+         id="org.rebecalang.afra.ideplugin.editor.rebecaprop"
          name="Rebeca Property Editor">
    </page>
 </extension>
 <extension
       point="org.eclipse.core.runtime.preferences">
    <initializer
-         class="org.rebecalang.ide.afra.editors.rebeca.RebecaPreferenceInitializer">
+         class="org.rebecalang.afra.ideplugin.editors.rebeca.RebecaPreferenceInitializer">
    </initializer>
    <initializer
-         class="org.rebecalang.ide.afra.editors.rebecaprop.RebecaPropPreferenceInitializer">
+         class="org.rebecalang.afra.ideplugin.editors.rebecaprop.RebecaPropPreferenceInitializer">
    </initializer>
 </extension>
 <extension
       point="org.eclipse.ui.propertyPages">
    <page
-         class="org.rebecalang.ide.afra.propertypages.RebecaPropertyPage"
-         id="org.rebecalang.ide.afra.propertypage"
+         class="org.rebecalang.afra.ideplugin.propertypages.RebecaPropertyPage"
+         id="org.rebecalang.afra.ideplugin.propertypage"
          name="Project Details">
       <enabledWhen>
          <reference
-               definitionId="org.rebecalang.ide.afra.hasNature">
+               definitionId="org.rebecalang.afra.ideplugin.hasNature">
          </reference>
       </enabledWhen>
    </page>
@@ -250,14 +304,62 @@
 <extension
       point="org.eclipse.core.expressions.definitions">
    <definition
-         id="org.rebecalang.ide.afra.hasNature">
+         id="org.rebecalang.afra.ideplugin.hasNature">
       <adapt
             type="org.eclipse.core.resources.IProject">
          <test
                property="org.eclipse.core.resources.projectNature"
-               value="org.rebecalang.ide.afra.RebecaNature">
+               value="org.rebecalang.afra.ideplugin.RebecaNature">
          </test>
       </adapt>
    </definition>
 </extension>
-</plugin>
+<extension
+         point="org.eclipse.ui.decorators">
+      <decorator
+            icon="icons/rebeca.gif"
+            id="org.eclipse.pde.ui.ProjectDecorator"
+            label="%decorator.label"
+            objectClass="org.eclipse.core.resources.IFolder">
+      </decorator>
+ </extension>
+
+
+<extension
+      id="org.rebecalang.afra.ideplugin.nature.TimedRebecaNature"
+      name="Timed Rebeca Nature"
+      point="org.eclipse.core.resources.natures">
+   <runtime>
+      <run
+            class="org.rebecalang.afra.ideplugin.nature.TimedRebecaNature">
+      </run>
+   </runtime>
+</extension>
+<extension
+      point="org.eclipse.ui.ide.projectNatureImages">
+   <image
+         icon="icons/timer.png"
+         id="org.rebecalang.afra.ideplugin.nature.TimedRebecaNature.image"
+         natureId="org.rebecalang.afra.ideplugin.nature.TimedRebecaNature">
+   </image>
+</extension>
+<extension
+      id="org.rebecalang.afra.ideplugin.nature.RebecaNature"
+      name="Rebeca Nature"
+      point="org.eclipse.core.resources.natures">
+   <runtime>
+      <run
+            class="org.rebecalang.afra.ideplugin.nature.RebecaNature">
+      </run>
+   </runtime>
+</extension>
+<extension
+      point="org.eclipse.ui.ide.projectNatureImages">
+   <image
+         icon="icons/rebeca.png"
+         id="org.rebecalang.afra.ideplugin.nature.RebecaNature.image"
+         natureId="org.rebecalang.afra.ideplugin.nature.RebecaNature">
+   </image>
+</extension>
+
+ </plugin>

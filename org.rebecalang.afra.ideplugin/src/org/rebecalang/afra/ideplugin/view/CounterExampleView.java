@@ -1,0 +1,206 @@
+/*******************************************************************************
+ * Copyright (c) 2008, 2011 IBM Corporation and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     IBM Corporation - initial API and implementation
+ ******************************************************************************/
+package org.rebecalang.afra.ideplugin.view;
+
+import java.io.File;
+
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
+
+import org.eclipse.e4.core.contexts.IEclipseContext;
+import org.eclipse.jface.viewers.ILabelProvider;
+import org.eclipse.jface.viewers.ILabelProviderListener;
+import org.eclipse.jface.viewers.ITableLabelProvider;
+import org.eclipse.jface.viewers.ITreeContentProvider;
+import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.TreeColumn;
+import org.eclipse.ui.part.ViewPart;
+import org.rebecalang.afra.ideplugin.modelcheckreport.CheckedProperty;
+import org.rebecalang.afra.ideplugin.modelcheckreport.ModelCheckingReport;
+import org.rebecalang.afra.ideplugin.modelcheckreport.SystemInfo;
+
+/**
+ * The Problems view is the view supplied by the IDE to show problems.
+ * 
+ * @since 3.4
+ */
+public class CounterExampleView extends ViewPart {
+
+	String inputFile;
+
+	@Inject
+	public CounterExampleView(IEclipseContext ctx) {
+	}
+
+	private TreeViewer analysisResultViewerTree;
+	private Composite parent;
+
+	class ViewContentProvider implements ITreeContentProvider {
+
+		public ViewContentProvider() {
+
+		}
+
+		public void inputChanged(Viewer v, Object oldInput, Object newInput) {
+			if (inputFile == null)
+				return;
+
+			File input = new File(inputFile);
+			if (input.exists() && input.length() > 0) {
+				try {
+					JAXBContext jaxbContext;
+					jaxbContext = JAXBContext.newInstance(ModelCheckingReport.class.getPackage().getName());
+					Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+					report = (ModelCheckingReport) unmarshaller.unmarshal(input);
+				} catch (JAXBException e) {
+					e.printStackTrace();
+				}
+			}
+			parent.layout(true);
+		}
+
+		@Override
+		public void dispose() {
+		}
+
+		@Override
+		public Object[] getElements(Object inputElement) {
+			if (report == null)
+				return new Object[0];
+			return new Object[] { report.getSystemInfo(), report.getCheckedProperty() };
+		}
+
+		@Override
+		public Object[] getChildren(Object parentElement) {
+			Object[][] childs = null;
+			if (parentElement instanceof SystemInfo) {
+				SystemInfo systemInfo = (SystemInfo) parentElement;
+				childs = new Object[5][];
+				childs[0] = new String[]{"Toral Spent Timed", systemInfo.getTotalSpentTime()};
+				childs[1] = new String[]{"Number of Reached States", systemInfo.getReachedStates()};
+				childs[2] = new String[]{"Number of Reached Transitions", systemInfo.getReachedTransitions()};
+				childs[3] = new String[]{"Consumed Memory", systemInfo.getConsumedMem()};
+				childs[4] = new String[]{"Hashtable Size", systemInfo.getHashtableSize()};
+			} else if (parentElement instanceof CheckedProperty) {
+				CheckedProperty checkedProperty = (CheckedProperty) parentElement;
+				childs = new Object[3][];
+				childs[0] = new String[]{"Property Name", checkedProperty.getName()};
+				childs[1] = new String[]{"Property Type", checkedProperty.getType()};
+				childs[2] = new String[]{"Analysis Result", checkedProperty.getResult()};
+			}
+			return childs;
+		}
+
+		@Override
+		public Object getParent(Object element) {
+			return null;
+		}
+
+		@Override
+		public boolean hasChildren(Object element) {
+			return (element instanceof ModelCheckingReport) || (element instanceof SystemInfo)
+					|| (element instanceof CheckedProperty);
+		}
+	}
+
+	public void update() {
+		for (Control control : parent.getChildren()) {
+			control.dispose();
+		}
+
+		final TreeViewer viewer = new TreeViewer(parent);
+		viewer.getTree().setLayoutData(new GridData(GridData.FILL_BOTH));
+		viewer.setContentProvider(new ViewContentProvider());
+        viewer.getTree().setHeaderVisible(true);
+		viewer.getTree().setLinesVisible(true);
+		viewer.setLabelProvider(new AnalysisResultLabelProvider());
+		viewer.setInput(""); // pass a non-null that will be ignored
+
+		TreeColumn mainColumn = new TreeColumn(viewer.getTree(), SWT.LEFT);
+		mainColumn.setText("Attribute");
+		mainColumn.setWidth(200);
+		mainColumn.setAlignment(SWT.CENTER);
+		
+		TreeColumn valueColumn = new TreeColumn(viewer.getTree(), SWT.CENTER);
+		valueColumn.setText("Value");
+		valueColumn.setWidth(200);
+		valueColumn.setAlignment(SWT.LEFT);
+		viewer.expandAll();
+		parent.layout(true);
+	}
+
+	@PostConstruct
+	public void createPartControl(Composite parent) {
+		this.parent = parent;
+		update();
+	}
+
+	private ModelCheckingReport report;
+
+	@Override
+	public void setFocus() {
+		analysisResultViewerTree.getControl().setFocus();
+	}
+
+	public void setInputFileName(String inputFile) {
+		this.inputFile = inputFile;
+	}
+
+	class AnalysisResultLabelProvider implements ILabelProvider, ITableLabelProvider {
+
+		@Override
+		public void addListener(ILabelProviderListener listener) {
+		}
+
+		@Override
+		public void dispose() {
+		}
+
+		@Override
+		public boolean isLabelProperty(Object element, String property) {
+			return false;
+		}
+
+		@Override
+		public void removeListener(ILabelProviderListener listener) {
+		}
+
+		@Override
+		public Image getImage(Object element) {
+			return null;
+		}
+
+		@Override
+		public String getText(Object element) {
+			return element.getClass().getSimpleName();
+		}
+
+		@Override
+		public Image getColumnImage(Object element, int columnIndex) {
+			return null;
+		}
+
+		@Override
+		public String getColumnText(Object element, int columnIndex) {
+			// TODO Auto-generated method stub
+			return (element instanceof String[]) ? ((String[]) element)[columnIndex] : element.getClass().getSimpleName();
+		}
+	}
+}
