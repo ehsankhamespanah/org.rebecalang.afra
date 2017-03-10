@@ -4,11 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.eclipse.jface.text.IDocument;
-import org.eclipse.ui.editors.text.TextEditor;
-import org.rebecalang.afra.ideplugin.editors.ColorManager;
 import org.eclipse.jface.text.Position;
 import org.eclipse.jface.text.source.Annotation;
-import org.eclipse.jface.text.source.IAnnotationModel;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.IVerticalRuler;
 import org.eclipse.jface.text.source.projection.ProjectionAnnotation;
@@ -16,6 +13,8 @@ import org.eclipse.jface.text.source.projection.ProjectionAnnotationModel;
 import org.eclipse.jface.text.source.projection.ProjectionSupport;
 import org.eclipse.jface.text.source.projection.ProjectionViewer;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.editors.text.TextEditor;
+import org.rebecalang.afra.ideplugin.editors.ColorManager;
 
 public class RebecaEditor extends TextEditor {
 
@@ -72,19 +71,18 @@ public class RebecaEditor extends TextEditor {
 	private Annotation[] oldAnnotations;
 	private ProjectionAnnotationModel annotationModel;
 	
-	public void updateFoldingStructure(ArrayList positions)
+	public void updateFoldingStructure(ArrayList<Position> positions)
 	{
 		Annotation[] annotations = new Annotation[positions.size()];
 		
 		//this will hold the new annotations along
 		//with their corresponding positions
-		HashMap newAnnotations = new HashMap();
+		HashMap<Annotation, Position> newAnnotations = new HashMap<Annotation, Position>();
 		
-		for(int i =0;i<positions.size();i++)
-		{
+		for(int i =0;i<positions.size();i++) {
 			ProjectionAnnotation annotation = new ProjectionAnnotation();
 			
-			newAnnotations.put(annotation,positions.get(i));
+			newAnnotations.put(annotation, positions.get(i));
 			
 			annotations[i]=annotation;
 		}

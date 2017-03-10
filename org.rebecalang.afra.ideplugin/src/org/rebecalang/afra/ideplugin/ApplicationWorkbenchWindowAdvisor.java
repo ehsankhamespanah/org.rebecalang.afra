@@ -2,7 +2,6 @@ package org.rebecalang.afra.ideplugin;
 
 import java.io.PrintStream;
 
-import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.application.ActionBarAdvisor;
@@ -13,7 +12,7 @@ import org.eclipse.ui.console.ConsolePlugin;
 import org.eclipse.ui.console.IConsole;
 import org.eclipse.ui.console.MessageConsole;
 import org.eclipse.ui.console.MessageConsoleStream;
-import org.rebecalang.afra.ideplugin.view.CounterExampleView;
+import org.rebecalang.afra.ideplugin.view.ViewUtils;
 
 public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 
@@ -51,10 +50,13 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 			System.setOut(myS);
 			System.setErr(myS);
 
-			IViewPart view = PlatformUI.getWorkbench().getActiveWorkbenchWindow().
-				getActivePage().showView(CounterExampleView.class.getName());
-			PlatformUI.getWorkbench().getActiveWorkbenchWindow().
-			getActivePage().hideView(view);
+//			CounterExampleGraphView view = (CounterExampleGraphView) ViewUtils.getViewPart(CounterExampleGraphView.class.getName());
+//			view.update();
+//			PlatformUI.getWorkbench().getActiveWorkbenchWindow().
+//			getActivePage().hideView(view);			
+//			service.sh
+			
+			ViewUtils.counterExampleVisible(false);
 					
 		} catch (PartInitException e) {
 			// TODO Auto-generated catch block

@@ -1,15 +1,13 @@
 package org.rebecalang.afra.ideplugin.editors.rebeca;
 
-import org.eclipse.jface.text.IDocument;
+import org.eclipse.jface.text.contentassist.ContentAssistant;
+import org.eclipse.jface.text.contentassist.IContentAssistant;
 import org.eclipse.jface.text.rules.RuleBasedScanner;
 import org.eclipse.jface.text.rules.Token;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.rebecalang.afra.ideplugin.editors.ColorManager;
 import org.rebecalang.afra.ideplugin.editors.GeneralSourceViewerConfiguration;
 import org.rebecalang.afra.ideplugin.editors.GeneralTextAttribute;
-import org.eclipse.jface.text.contentassist.ContentAssistant;
-import org.eclipse.jface.text.contentassist.IContentAssistProcessor;
-import org.eclipse.jface.text.contentassist.IContentAssistant;
 
 
 public class RebecaSourceViewerConfiguration extends GeneralSourceViewerConfiguration {

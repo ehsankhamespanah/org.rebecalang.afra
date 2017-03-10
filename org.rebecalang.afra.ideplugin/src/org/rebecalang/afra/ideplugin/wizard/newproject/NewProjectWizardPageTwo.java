@@ -1,8 +1,5 @@
 package org.rebecalang.afra.ideplugin.wizard.newproject;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;

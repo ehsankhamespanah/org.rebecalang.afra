@@ -28,11 +28,11 @@ import org.eclipse.ui.IWorkbenchPartReference;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.editors.text.TextEditor;
 import org.eclipse.ui.handlers.HandlerUtil;
-import org.rebecalang.afra.ideplugin.modelcheckreport.ModelCheckingReport;
 import org.rebecalang.afra.ideplugin.propertypages.PropertySelectionDialog;
 import org.rebecalang.afra.ideplugin.view.AnalysisResultView;
-import org.rebecalang.afra.ideplugin.view.CounterExampleView;
+import org.rebecalang.afra.ideplugin.view.CounterExampleGraphView;
 import org.rebecalang.afra.ideplugin.view.ViewUtils;
+import org.rebecalang.afra.ideplugin.view.modelcheckreport.resultobjectmodel.ModelCheckingReport;
 
 public class ModelCheckingHandler extends AbstractHandler {
 	public ModelCheckingHandler() {
@@ -128,12 +128,17 @@ public class ModelCheckingHandler extends AbstractHandler {
 									ModelCheckingReport modelCheckingReport = (ModelCheckingReport) unmarshaller.unmarshal(modelCheckingResultFile);
 									view.setReport(modelCheckingReport);
 									if (modelCheckingReport != null)
-										if (!modelCheckingReport.getCheckedProperty().getResult().equals("satisfied"))
-											ViewUtils.getViewPart(CounterExampleView.class.getName());
+										if (!modelCheckingReport.getCheckedProperty().getResult().equals("satisfied")) {
+											ViewUtils.counterExampleVisible(true);
+											CounterExampleGraphView ceView = 
+													(CounterExampleGraphView) ViewUtils.getViewPart(CounterExampleGraphView.class.getName());
+											ceView.update(outputFolder + "output.xml");
+											
+										}
 										else {
 											IWorkbenchPage page = 
 											PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage(); 
-											IWorkbenchPartReference myView = page.findViewReference(CounterExampleView.class.getName());
+											IWorkbenchPartReference myView = page.findViewReference(CounterExampleGraphView.class.getName());
 											if (myView != null)
 												page.setPartState(myView, IWorkbenchPage.STATE_MINIMIZED); 
 											

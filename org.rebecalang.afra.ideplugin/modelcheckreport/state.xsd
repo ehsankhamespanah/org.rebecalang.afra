@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema attributeFormDefault="unqualified"
+	elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="variable">
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:extension base="xs:string">
+					<xs:attribute type="xs:string" name="name" use="optional" />
+					<xs:attribute type="xs:string" name="type" use="optional" />
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="message">
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:extension base="xs:string">
+					<xs:attribute type="xs:string" name="sender" use="optional" />
+					<xs:attribute type="xs:string" name="arrival" use="optional" />
+					<xs:attribute type="xs:string" name="deadline" use="optional" />
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="statevariables">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="variable" maxOccurs="unbounded"
+					minOccurs="0" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="queue">
+		<xs:complexType mixed="true">
+			<xs:sequence>
+				<xs:element ref="message" minOccurs="0" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="now" type="xs:int" />
+	<xs:element name="pc" type="xs:string" />
+	<xs:element name="res" type="xs:string" />
+	<xs:element name="rebec">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="statevariables" />
+				<xs:element ref="queue" />
+				<xs:element ref="now" minOccurs="0" />
+				<xs:element ref="pc" minOccurs="0" />
+				<xs:element ref="res" minOccurs="0" />
+			</xs:sequence>
+			<xs:attribute type="xs:string" name="name" use="optional" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="state">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="rebec" maxOccurs="unbounded" minOccurs="0" />
+			</xs:sequence>
+			<xs:attribute type="xs:string" name="id" />
+			<xs:attribute type="xs:string" name="atomicpropositions" />
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

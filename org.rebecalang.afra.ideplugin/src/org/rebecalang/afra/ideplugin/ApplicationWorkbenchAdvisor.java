@@ -14,6 +14,7 @@ import org.eclipse.ui.internal.ide.IDEWorkbenchPlugin;
 import org.eclipse.core.runtime.IAdaptable;
 import org.osgi.framework.Bundle;
 
+@SuppressWarnings("restriction")
 public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisor {
 
 	private static final String PERSPECTIVE_ID = "org.rebecalang.afra.ideplugin.perspective2"; //$NON-NLS-1$

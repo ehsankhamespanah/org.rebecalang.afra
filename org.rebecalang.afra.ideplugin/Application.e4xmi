@@ -21,8 +21,11 @@
               <children xsi:type="advanced:Placeholder" xmi:id="_nRrDOPqFEea7gt_Qq78G6Q" elementId="org.rebecalang.afra.ideplugin.placeholder.console" ref="_LoTcYPYEEeaaz6i3UWiK7g"/>
             </children>
           </children>
-          <children xsi:type="basic:PartStack" xmi:id="_89U_MACXEeefkpqD3lIaUQ" elementId="org.rebecalang.afra.ideplugin.partstack.0" selectedElement="_hm3EsACUEeefkpqD3lIaUQ">
-            <children xsi:type="basic:Part" xmi:id="_hm3EsACUEeefkpqD3lIaUQ" elementId="org.rebecalang.afra.ideplugin.view.CounterExampleView" contributionURI="bundleclass://org.rebecalang.afra.ideplugin/org.rebecalang.afra.ideplugin.view.CounterExampleView" label="Counter Example"/>
+          <children xsi:type="basic:PartStack" xmi:id="_vhiBQAWhEeeKO5X4TFBPmw" elementId="org.rebecalang.afra.ideplugin.partstack.0">
+            <children xsi:type="basic:CompositePart" xmi:id="_xGInkAWhEeeKO5X4TFBPmw" elementId="org.rebecalang.afra.ideplugin.compositepart.counterexample" label="Counter Example">
+              <children xsi:type="advanced:Placeholder" xmi:id="_d5w4YAToEeeKO5X4TFBPmw" elementId="org.rebecalang.afra.ideplugin.placeholder.counterexample" ref="_DN-x8APaEeeKO5X4TFBPmw"/>
+              <children xsi:type="advanced:Placeholder" xmi:id="_uT4G4AWXEeeKO5X4TFBPmw" elementId="org.rebecalang.afra.ideplugin.placeholder.stateincounterexample" ref="_rNaj4AWlEeeKO5X4TFBPmw"/>
+            </children>
           </children>
         </children>
       </children>
@@ -73,6 +76,8 @@
     <sharedElements xsi:type="basic:Part" xmi:id="_LoTcYPYEEeaaz6i3UWiK7g" elementId="org.eclipse.ui.console.ConsoleView" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView" label="Console" iconURI="platform:/plugin/org.rebecalang.afra.ideplugin/icons/classes.gif"/>
     <sharedElements xsi:type="basic:Part" xmi:id="_JC73UPeeEeaaz6i3UWiK7g" elementId="org.eclipse.ui.views.ProblemView" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView" label="Problems"/>
     <sharedElements xsi:type="basic:Part" xmi:id="_z86DUPeeEeaaz6i3UWiK7g" elementId="org.eclipse.search.internal.ui.SearchResultView" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView" label="Search"/>
+    <sharedElements xsi:type="basic:Part" xmi:id="_DN-x8APaEeeKO5X4TFBPmw" elementId="org.rebecalang.afra.ideplugin.view.CounterExampleGraphView" contributionURI="bundleclass://org.rebecalang.afra.ideplugin/org.rebecalang.afra.ideplugin.view.CounterExampleGraphView" label="Coutner Example Graph" iconURI="platform:/plugin/org.rebecalang.afra.ideplugin/icons/counterexample.png"/>
+    <sharedElements xsi:type="basic:Part" xmi:id="_rNaj4AWlEeeKO5X4TFBPmw" elementId="org.rebecalang.afra.ideplugin.view.StateInCounterExampleView" contributionURI="bundleclass://org.rebecalang.afra.ideplugin/org.rebecalang.afra.ideplugin.view.StateInCounterExampleView" label="State in Counter Example"/>
     <trimBars xmi:id="_VOV6ANTAEeGTY-uOtVc6Mg" elementId="org.eclipse.ui.main.toolbar"/>
     <trimBars xmi:id="_VP1HwNTAEeGTY-uOtVc6Mg" elementId="org.eclipse.ui.trim.status" side="Bottom">
       <children xsi:type="menu:ToolControl" xmi:id="_VP1u0NTAEeGTY-uOtVc6Mg" elementId="org.eclipse.ui.StatusLine" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.StandardTrim">
@@ -129,6 +134,8 @@
   <descriptors xmi:id="_ClMEcPNDEeaPzoR2QQVKQA" elementId="org.eclipse.ui.console.ConsoleView" label="Console" iconURI="platform:/plugin/org.rebecalang.afra.ideplugin/icons/classes.gif" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView"/>
   <descriptors xmi:id="_9oragPedEeaaz6i3UWiK7g" elementId="org.eclipse.ui.views.ProblemView" label="Problems" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView"/>
   <descriptors xmi:id="_vZqhoPeeEeaaz6i3UWiK7g" elementId="org.eclipse.search.internal.ui.SearchResultView" label="Search" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView"/>
+  <descriptors xmi:id="_4vpx4APZEeeKO5X4TFBPmw" elementId="org.rebecalang.afra.ideplugin.view.CounterExampleGraphView" label="Counter Example Graph" iconURI="platform:/plugin/org.rebecalang.afra.ideplugin/icons/counterexample.png" contributionURI="bundleclass://org.rebecalang.afra.ideplugin/org.rebecalang.afra.ideplugin.view.CounterExampleGraphView"/>
+  <descriptors xmi:id="_hv8j4AWlEeeKO5X4TFBPmw" elementId="org.rebecalang.afra.ideplugin.view.StateInCounterExampleView" label="State in Counter Example" contributionURI="bundleclass://org.rebecalang.afra.ideplugin/org.rebecalang.afra.ideplugin.view.StateInCounterExampleView"/>
   <commands xmi:id="_gyRyYPnLEea7gt_Qq78G6Q" elementId="org.eclipse.ui.file.exit" commandName="quitCommand"/>
   <commands xmi:id="_h5FCYPnLEea7gt_Qq78G6Q" elementId="org.eclipse.ui.file.open" commandName="openCommand"/>
   <commands xmi:id="_jEqEsPnLEea7gt_Qq78G6Q" elementId="org.eclipse.ui.file.save2" commandName="saveCommand"/>

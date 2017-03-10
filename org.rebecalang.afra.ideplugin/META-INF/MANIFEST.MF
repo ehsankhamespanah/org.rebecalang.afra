@@ -21,7 +21,9 @@ Require-Bundle: javax.inject,
  org.eclipse.ui.editors,
  org.eclipse.ui.console,
  org.eclipse.ui.workbench,
- org.eclipse.ui.ide.application
+ org.eclipse.ui.ide.application,
+ org.eclipse.zest.core,
+ org.eclipse.zest.layouts
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: javax.inject;version="1.0.0"
 Bundle-ActivationPolicy: lazy

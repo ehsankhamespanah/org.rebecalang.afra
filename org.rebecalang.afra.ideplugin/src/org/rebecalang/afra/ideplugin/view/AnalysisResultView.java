@@ -11,9 +11,7 @@
 package org.rebecalang.afra.ideplugin.view;
 
 import javax.annotation.PostConstruct;
-import javax.inject.Inject;
 
-import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.ITableLabelProvider;
@@ -27,9 +25,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.ui.part.ViewPart;
-import org.rebecalang.afra.ideplugin.modelcheckreport.CheckedProperty;
-import org.rebecalang.afra.ideplugin.modelcheckreport.ModelCheckingReport;
-import org.rebecalang.afra.ideplugin.modelcheckreport.SystemInfo;
+import org.rebecalang.afra.ideplugin.view.modelcheckreport.resultobjectmodel.CheckedProperty;
+import org.rebecalang.afra.ideplugin.view.modelcheckreport.resultobjectmodel.ModelCheckingReport;
+import org.rebecalang.afra.ideplugin.view.modelcheckreport.resultobjectmodel.SystemInfo;
 
 /**
  * The Problems view is the view supplied by the IDE to show problems.
@@ -37,10 +35,6 @@ import org.rebecalang.afra.ideplugin.modelcheckreport.SystemInfo;
  * @since 3.4
  */
 public class AnalysisResultView extends ViewPart {
-
-	@Inject
-	public AnalysisResultView(IEclipseContext ctx) {
-	}
 
 	private TreeViewer analysisResultViewerTree;
 	private Composite parent;
@@ -74,12 +68,11 @@ public class AnalysisResultView extends ViewPart {
 			Object[][] childs = null;
 			if (parentElement instanceof SystemInfo) {
 				SystemInfo systemInfo = (SystemInfo) parentElement;
-				childs = new Object[5][];
-				childs[0] = new String[]{"Toral Spent Timed", systemInfo.getTotalSpentTime()};
+				childs = new Object[4][];
+				childs[0] = new String[]{"Total Spent Time", systemInfo.getTotalSpentTime()};
 				childs[1] = new String[]{"Number of Reached States", systemInfo.getReachedStates()};
 				childs[2] = new String[]{"Number of Reached Transitions", systemInfo.getReachedTransitions()};
 				childs[3] = new String[]{"Consumed Memory", systemInfo.getConsumedMem()};
-				childs[4] = new String[]{"Hashtable Size", systemInfo.getHashtableSize()};
 			} else if (parentElement instanceof CheckedProperty) {
 				CheckedProperty checkedProperty = (CheckedProperty) parentElement;
 				childs = new Object[3][];
