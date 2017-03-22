@@ -44,4 +44,8 @@ public class NewProjectWizard extends Wizard implements INewWizard {
         pageTwo = new NewProjectWizardPageTwo();
         addPage(pageTwo);
     }
+	
+	public boolean canFinish() {
+		return getContainer().getCurrentPage() == pageTwo;
+	}
 }

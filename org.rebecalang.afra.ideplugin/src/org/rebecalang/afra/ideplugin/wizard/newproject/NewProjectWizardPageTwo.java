@@ -206,4 +206,5 @@ public class NewProjectWizardPageTwo extends WizardPage {
 	public CompilerFeature getVersion() {
 		return languageVersion;
 	}
+	
 }

@@ -29,7 +29,6 @@ import org.eclipse.core.runtime.QualifiedName;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
-import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.editors.text.TextEditor;
 import org.eclipse.ui.handlers.HandlerUtil;
@@ -65,144 +64,156 @@ public class CompileHandler extends AbstractHandler {
 	}
 
 	private boolean result;
+	private boolean doesUserCancel;
+
+	public static boolean validateActiveFile(TextEditor codeEditor) {
+		if (codeEditor == null)
+			return false;
+		IResource activeFile = codeEditor.getEditorInput().getAdapter(IFile.class);
+		if (activeFile.getFileExtension().equals("rebeca"))
+			return true;
+		if(activeFile.getFileExtension().equals("property")) {
+			File rebecaFile = new File(activeFile.getRawLocation().toString().substring(0,
+					activeFile.getRawLocation().toString().indexOf(activeFile.getName()))
+					+ activeFile.getName().substring(0, activeFile.getName().indexOf(".property"))
+					+ ".rebeca");
+			activeFile = activeFile.getProject().getWorkspace().getRoot().getFileForLocation(new Path(rebecaFile.getAbsolutePath()));
+			if (activeFile.exists())
+				return true;
+		}
+		return false;
+	}
 
 	public Object execute(ExecutionEvent event, boolean showDialog) throws ExecutionException {
 		boolean compilationResult = false;
 		TextEditor codeEditor = (TextEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
 				.getActiveEditor();
 
-		if (codeEditor == null) {
+		if (!validateActiveFile(codeEditor)) {
 			showNoActiveRebecaFileErrorDialog(event);
-		} else {
-			IResource activeFile = codeEditor.getEditorInput().getAdapter(IFile.class);
-			if (!activeFile.getFileExtension().equals("rebeca")) {
-				showNoActiveRebecaFileErrorDialog(event);
-			} else {
-				try {
-					new ProgressMonitorDialog(HandlerUtil.getActiveWorkbenchWindow(event).getShell()).run(true, true,
-							new IRunnableWithProgress() {
+			return compilationResult;
+		}
+		IResource activeFile = codeEditor.getEditorInput().getAdapter(IFile.class);
+		if (activeFile.getFileExtension().equals("property")) {
+			File rebecaFile = new File(activeFile.getRawLocation().toString().substring(0,
+					activeFile.getRawLocation().toString().indexOf(activeFile.getName()))
+					+ activeFile.getName().substring(0, activeFile.getName().indexOf(".property"))
+					+ ".rebeca");
+			activeFile = activeFile.getProject().getWorkspace().getRoot().getFileForLocation(new Path(rebecaFile.getAbsolutePath()));
+		}
+		try {
+			doesUserCancel = false;
+			ProgressMonitorDialog progressMonitorDialog = new ProgressMonitorDialog(HandlerUtil.getActiveWorkbenchWindow(event).getShell()) {
+				@Override
+				protected void cancelPressed() {
+					super.cancelPressed();
+					doesUserCancel = true;
+				}
+			};
+			final IResource finalActiveFile = activeFile;
+			progressMonitorDialog.run(true, true,
+					new IRunnableWithProgress() {
+						@Override
+						public void run(IProgressMonitor monitor)
+								throws InvocationTargetException, InterruptedException {
+							boolean indeterminate = false;
+							monitor.beginTask("Compiling the Rebeca model",
+									indeterminate ? IProgressMonitor.UNKNOWN : 100);
 
-								@Override
-								public void run(IProgressMonitor monitor)
-										throws InvocationTargetException, InterruptedException {
-									boolean indeterminate = false;
-									monitor.beginTask("Compiling the Rebeca model",
-											indeterminate ? IProgressMonitor.UNKNOWN : 100);
+							File propertyFile = new File(finalActiveFile.getRawLocation().toString().substring(0,
+									finalActiveFile.getRawLocation().toString().indexOf(finalActiveFile.getName()))
+									+ finalActiveFile.getName().substring(0, finalActiveFile.getName().indexOf(".rebeca"))
+									+ ".property");
+							if (!propertyFile.exists())
+								propertyFile = null;
+							String projectPath = finalActiveFile.getFullPath().toString().substring(1);
+							File outputFolder = new File(Platform.getLocation().toOSString() + "/"
+									+ projectPath.substring(0, projectPath.indexOf('/')) + "/out/"
+									+ finalActiveFile.getName().substring(0, finalActiveFile.getName().indexOf(".rebeca"))
+									+ "/");
 
-									File propertyFile = new File(activeFile.getRawLocation().toString().substring(0,
-											activeFile.getRawLocation().toString().indexOf(activeFile.getName()))
-											+ activeFile.getName().substring(0, activeFile.getName().indexOf(".rebeca"))
-											+ ".property");
-									if (!propertyFile.exists())
-										propertyFile = null;
-									String projectPath = activeFile.getFullPath().toString().substring(1);
-									File outputFolder = new File(Platform.getLocation().toOSString() + "/"
-											+ projectPath.substring(0, projectPath.indexOf('/')) + "/out/"
-											+ activeFile.getName().substring(0, activeFile.getName().indexOf(".rebeca"))
-											+ "/");
-
+							try {
+								finalActiveFile.deleteMarkers(IMarker.PROBLEM, true, IResource.DEPTH_INFINITE);
+								IFile propertyFileResource = finalActiveFile.getProject().getWorkspace().getRoot().
+										getFileForLocation(new Path(propertyFile.getAbsolutePath()));
+								propertyFileResource.deleteMarkers(IMarker.PROBLEM, true, IResource.DEPTH_INFINITE);
+								result = compileSec(finalActiveFile, propertyFile, outputFolder);
+								monitor.worked(10);
+								if (!result) {
+									monitor.done();
+								} else {
+									final File path = outputFolder;
 									try {
-										activeFile.deleteMarkers(IMarker.PROBLEM, true, IResource.DEPTH_INFINITE);
-										IFile propertyFileResource = activeFile.getProject().getWorkspace().getRoot().
-												getFileForLocation(new Path(propertyFile.getAbsolutePath()));
-										propertyFileResource.deleteMarkers(IMarker.PROBLEM, true, IResource.DEPTH_INFINITE);
-										result = compileSec(activeFile, propertyFile, outputFolder);
-										monitor.worked(10);
-										if (!result) {
-											monitor.done();
-										} else {
-											// execute generated files
-
-											final File path = outputFolder;
-											try {
-												String[][] compilerCommand = generateCompilationCommands(path);
-												int step = 80 / compilerCommand.length;
-												monitor.subTask("Compiling auto generated C++ files");
-												for (String[] command : compilerCommand) {
-													Process p = Runtime.getRuntime().exec(command, null, path);
-													p.waitFor();
-													BufferedReader reader = new BufferedReader(
-															new InputStreamReader(p.getErrorStream()));
-													String line;
-													while ((line = reader.readLine()) != null) {
-														System.out.println(line);
-													}
-													reader = new BufferedReader(
-															new InputStreamReader(p.getInputStream()));
-													while ((line = reader.readLine()) != null) {
-														System.out.println(line);
-													}
-													monitor.worked(step);
-												}
-
-												monitor.subTask("Linking auto generated C++ files");
-												String[] linkerCommand = generateLinkerCommands(path);
-												Process p = Runtime.getRuntime().exec(linkerCommand, null, path);
-												p.waitFor();
-												BufferedReader reader = new BufferedReader(
-														new InputStreamReader(p.getErrorStream()));
-												String line;
-												while ((line = reader.readLine()) != null) {
-													System.out.println(line);
-												}
-												reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
-												while ((line = reader.readLine()) != null) {
-													System.out.println(line);
-												}
-
-												monitor.done();
-
-											} catch (IOException e) {
-												result = false;
-												e.printStackTrace();
-											} catch (Exception e) {
-												e.printStackTrace();
-												result = false;
+										String[][] compilerCommand = generateCompilationCommands(path);
+										int step = 80 / compilerCommand.length;
+										monitor.subTask("Compiling auto generated C++ files");
+										for (String[] command : compilerCommand) {
+											if (doesUserCancel)
+												return;
+											Process p = Runtime.getRuntime().exec(command, null, path);
+											p.waitFor();
+											BufferedReader reader = new BufferedReader(
+													new InputStreamReader(p.getErrorStream()));
+											String line;
+											while ((line = reader.readLine()) != null) {
+												System.out.println(line);
 											}
+											reader = new BufferedReader(
+													new InputStreamReader(p.getInputStream()));
+											while ((line = reader.readLine()) != null) {
+												System.out.println(line);
+											}
+											monitor.worked(step);
 										}
-									} catch (IOException e1) {
-										result = false;
-										e1.printStackTrace();
-									} catch (PartInitException e1) {
-										result = false;
-										e1.printStackTrace();
-									} catch (CoreException e) {
-										result = false;
+
+										monitor.subTask("Linking auto generated C++ files");
+										String[] linkerCommand = generateLinkerCommands(path);
+										Process p = Runtime.getRuntime().exec(linkerCommand, null, path);
+										p.waitFor();
+										BufferedReader reader = new BufferedReader(
+												new InputStreamReader(p.getErrorStream()));
+										String line;
+										while ((line = reader.readLine()) != null) {
+											System.out.println(line);
+										}
+										reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+										while ((line = reader.readLine()) != null) {
+											System.out.println(line);
+										}
+
+										monitor.done();
+
+									} catch (Exception e) {
 										e.printStackTrace();
+										result = false;
 									}
 								}
-							});
-					if (result) {
-						storeDefinedPropertiesNames(codeEditor.getEditorInput().getAdapter(IFile.class).getProject());
-						compilationResult = true;
-						if (showDialog)
-							MessageDialog.openInformation(
-									HandlerUtil.getActiveWorkbenchWindow(event).getShell(),
-									"Compilation Report",
-									activeFile.getName() + " is compiled successfully.");
-					} else {
-						PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
-						.showView("org.eclipse.ui.views.ProblemView");
-						
-					}
-
-				} catch (InvocationTargetException | InterruptedException e2) {
-					MessageDialog.openError(
-							HandlerUtil.getActiveWorkbenchWindow(event).getShell(),
-							"Internal Error", e2.getMessage());
-					e2.printStackTrace();
-				} catch (PartInitException e) {
-					MessageDialog.openError(
-							HandlerUtil.getActiveWorkbenchWindow(event).getShell(),
-							"Internal Error", e.getMessage());
-					e.printStackTrace();
-				} catch (CoreException e) {
-					MessageDialog.openError(
-							HandlerUtil.getActiveWorkbenchWindow(event).getShell(),
-							"Internal Error", e.getMessage());
-					e.printStackTrace();
+							} catch (IOException | CoreException e) {
+								result = false;
+								e.printStackTrace();
+							}
+						}
+					});
+			if (!doesUserCancel) {
+				if (result) {
+					storeDefinedPropertiesNames(codeEditor.getEditorInput().getAdapter(IFile.class).getProject());
+					compilationResult = true;
+					if (showDialog)
+						MessageDialog.openInformation(
+								HandlerUtil.getActiveWorkbenchWindow(event).getShell(),
+								"Compilation Report",
+								activeFile.getName() + " is compiled successfully.");
+				} else {
+					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
+					.showView("org.eclipse.ui.views.ProblemView");
+					
 				}
 			}
+		} catch (InvocationTargetException | InterruptedException | CoreException e) {
+			MessageDialog.openError(
+					HandlerUtil.getActiveWorkbenchWindow(event).getShell(),
+					"Internal Error", e.getMessage());
+			e.printStackTrace();
 		}
 		return compilationResult;
 	}
@@ -225,7 +236,7 @@ public class CompileHandler extends AbstractHandler {
 
 	public static void showNoActiveRebecaFileErrorDialog(ExecutionEvent event) {
 		MessageDialog.openError(HandlerUtil.getActiveWorkbenchWindow(event).getShell(), "Error",
-				"No Rebeca file is active in the editor.");
+				"No related Rebeca file is found.");
 	}
 
 	private static String[] generateLinkerCommands(File outputFolder) {
@@ -253,12 +264,13 @@ public class CompileHandler extends AbstractHandler {
 				return name.toLowerCase().endsWith(".cpp");
 			}
 		});
-		String command[][] = new String[files.length][4];
+		String command[][] = new String[files.length][5];
 		for (int cnt = 0; cnt < files.length; cnt++) {
 			command[cnt][0] = "g++";
-			command[cnt][1] = "-c";
-			command[cnt][2] = files[cnt];
-			command[cnt][3] = "-w";
+			command[cnt][1] = "-std=c++11";
+			command[cnt][2] = "-c";
+			command[cnt][3] = files[cnt];
+			command[cnt][4] = "-w";
 		}
 		return command;
 	}
@@ -289,7 +301,8 @@ public class CompileHandler extends AbstractHandler {
 			properties.setProperty("statespace",
 					outputFolder.getAbsolutePath() + File.separatorChar + rebecaFile.getName() + ".statespace");
 		}
-
+		analysisFeatures.add(AnalysisFeature.PROGRESS_REPORT);
+		
 		GenerateFiles.getInstance().generateFiles(rebecaFile.getRawLocation().toFile(), propertyFile, outputFolder,
 				compilerFeatures, analysisFeatures, properties);
 		
