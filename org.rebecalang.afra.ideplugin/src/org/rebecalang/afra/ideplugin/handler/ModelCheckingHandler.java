@@ -208,11 +208,7 @@ public class ModelCheckingHandler extends AbstractHandler {
 								
 							}
 							else {
-								IWorkbenchPage page = 
-								PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage(); 
-								IWorkbenchPartReference myView = page.findViewReference(CounterExampleGraphView.class.getName());
-								if (myView != null)
-									page.setPartState(myView, IWorkbenchPage.STATE_MINIMIZED); 
+								ViewUtils.counterExampleVisible(false);
 							}
 					} catch (JAXBException | IOException e) {
 						e.printStackTrace();

@@ -54,7 +54,6 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 //			view.update();
 //			PlatformUI.getWorkbench().getActiveWorkbenchWindow().
 //			getActivePage().hideView(view);			
-//			service.sh
 			
 			ViewUtils.counterExampleVisible(false);
 					

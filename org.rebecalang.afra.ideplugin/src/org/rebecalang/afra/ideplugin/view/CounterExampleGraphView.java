@@ -10,6 +10,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -31,9 +32,9 @@ public class CounterExampleGraphView extends ViewPart {
 	public static final String COUNTER_EXAMPLE_END_TAG = "</counter-example-trace>";
 	public static final String STATE_END_TAG = "</state>";
 	
-	private final static int nodesStartX = 100;
-	private final static int nodesStartY = 20;
-	private final static int stepY = 50;
+	private final static int NODE_START_X = 100;
+	private final static int NODE_START_Y = 20;
+	private final static int STEP_Y = 60;
 
 	public class CounterExampleStateSpecification {
 		private long fileDescriptor;
@@ -152,14 +153,14 @@ public class CounterExampleGraphView extends ViewPart {
 		
 		String line;
 		
-		int nodeY = nodesStartY;
+		int nodeY = NODE_START_Y;
 
 		CounterExampleStateSpecification cess = extractOneStateInfo(analysisResultFile, analysisResultFileName);
 		GraphNode newNode = new GraphNode(graph, SWT.NONE, cess);
-		newNode.setLocation(nodesStartX, nodeY);
+		newNode.setLocation(NODE_START_X, nodeY);
 		newNode.setText(cess.getId());
 		states.put(cess.getId(), newNode);		
-		nodeY += stepY;
+		nodeY += STEP_Y;
 		while(true) {
 			line = analysisResultFile.readLine();
 			if (line == null)
@@ -172,16 +173,19 @@ public class CounterExampleGraphView extends ViewPart {
 			String source = transition.getSource();
 			String destination = transition.getDestination();
 
-			if(analysisResultFile.getFilePointer() != analysisResultFile.length()) {
-				cess = extractOneStateInfo(analysisResultFile, analysisResultFileName);
-				newNode = new GraphNode(graph, SWT.NONE, cess);
-				newNode.setLocation(nodesStartX, nodeY);
-				newNode.setText(cess.getId());
-				states.put(cess.getId(), newNode);			
-				nodeY += stepY;
+			boolean repeatedState = states.containsKey(destination);
+			if (!repeatedState) {
+				if(analysisResultFile.getFilePointer() != analysisResultFile.length()) {
+					cess = extractOneStateInfo(analysisResultFile, analysisResultFileName);
+					newNode = new GraphNode(graph, SWT.NONE, cess);
+					newNode.setLocation(NODE_START_X, nodeY);
+					newNode.setText(cess.getId());
+					states.put(cess.getId(), newNode);			
+					nodeY += STEP_Y;
+				}
 			}
 			
-			GraphConnection gc = new GraphConnection(graph, ZestStyles.CONNECTIONS_SOLID, 
+			GraphConnection gc = new GraphConnection(graph, ZestStyles.CONNECTIONS_DIRECTED, 
 					states.get(source), states.get(destination));
 			Messageserver messageserver = transition.getMessageserver();
 			String messageText = messageserver.getOwner() + "." + messageserver.getTitle() + " from " +
@@ -191,11 +195,19 @@ public class CounterExampleGraphView extends ViewPart {
 			gc.setText(messageText);
 			gc.setLineColor(parent.getDisplay().getSystemColor(SWT.COLOR_BLACK));
 			
-			long backup = analysisResultFile.getFilePointer();
-			if(!(line = analysisResultFile.readLine()).trim().equals(COUNTER_EXAMPLE_END_TAG))
-				analysisResultFile.seek(backup);
-			else
+			if (repeatedState) {
+				Point location = states.get(source).getLocation();
+				states.get(source).setLocation(location.x() + 100, location.y());
+				location = states.get(destination).getLocation();
+				states.get(destination).setLocation(location.x() + 100, location.y());
 				break;
+			} else {
+				long backup = analysisResultFile.getFilePointer();
+				if(!(line = analysisResultFile.readLine()).trim().equals(COUNTER_EXAMPLE_END_TAG))
+					analysisResultFile.seek(backup);
+				else
+					break;
+			}
 		}
 		analysisResultFile.close();
 		parent.layout(true);
