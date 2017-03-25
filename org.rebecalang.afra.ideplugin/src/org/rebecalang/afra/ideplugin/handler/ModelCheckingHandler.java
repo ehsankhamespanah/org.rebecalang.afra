@@ -163,9 +163,11 @@ public class ModelCheckingHandler extends AbstractHandler {
 											
 											p.waitFor();
 											BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
-											String line;
-											while ((line = reader.readLine()) != null) {
-												System.out.println(line);
+											if (reader.ready()) {
+												String line;
+												while ((line = reader.readLine()) != null) {
+													System.out.println(line);
+												}
 											}
 											showResult(finalOutputFolder);
 

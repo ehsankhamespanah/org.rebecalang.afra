@@ -134,9 +134,11 @@ public class CompileHandler extends AbstractHandler {
 
 							try {
 								finalActiveFile.deleteMarkers(IMarker.PROBLEM, true, IResource.DEPTH_INFINITE);
-								IFile propertyFileResource = finalActiveFile.getProject().getWorkspace().getRoot().
-										getFileForLocation(new Path(propertyFile.getAbsolutePath()));
-								propertyFileResource.deleteMarkers(IMarker.PROBLEM, true, IResource.DEPTH_INFINITE);
+								if (propertyFile != null) {
+									IFile propertyFileResource = finalActiveFile.getProject().getWorkspace().getRoot().
+											getFileForLocation(new Path(propertyFile.getAbsolutePath()));
+									propertyFileResource.deleteMarkers(IMarker.PROBLEM, true, IResource.DEPTH_INFINITE);
+								}
 								result = compileSec(finalActiveFile, propertyFile, outputFolder);
 								monitor.worked(10);
 								if (!result) {
@@ -307,7 +309,9 @@ public class CompileHandler extends AbstractHandler {
 				compilerFeatures, analysisFeatures, properties);
 		
 		propertyModel = GenerateFiles.getInstance().getPropertyModel();
-		IFile propertyFileResource = project.getWorkspace().getRoot().getFileForLocation(new Path(propertyFile.getAbsolutePath()));
+		IFile propertyFileResource = null;
+		if (propertyFile != null)
+			project.getWorkspace().getRoot().getFileForLocation(new Path(propertyFile.getAbsolutePath()));
 		for (Exception e : GenerateFiles.getInstance().getExceptionContainer().getWarnings()) {
 			if (e instanceof CodeCompilationException) {
 				CodeCompilationException cce = (CodeCompilationException) e;
