@@ -214,7 +214,7 @@
             id="org.rebecalang.afra.ideplugin.toolbarModelCheck">
          <command
                commandId="org.rebecalang.afra.ideplugin.command.ModelCheckingCommand"
-               icon="icons/model-checking.png"
+               icon="icons/model-checking.gif"
                label="Model Checking"
                style="pulldown">
          </command>

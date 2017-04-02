@@ -305,6 +305,7 @@ public class CompileHandler extends AbstractHandler {
 		}
 		analysisFeatures.add(AnalysisFeature.PROGRESS_REPORT);
 		
+		clearFolder(outputFolder);
 		GenerateFiles.getInstance().generateFiles(rebecaFile.getRawLocation().toFile(), propertyFile, outputFolder,
 				compilerFeatures, analysisFeatures, properties);
 		
@@ -351,6 +352,23 @@ public class CompileHandler extends AbstractHandler {
 			}
 		}
 		return result;
+	}
+
+	private void clearFolder(File outputFolder) {
+		String files[] = outputFolder.list(new FilenameFilter() {
+			@Override
+			public boolean accept(File dir, String name) {
+				return name.toLowerCase().endsWith(".o") || name.toLowerCase().endsWith(".h") ||
+						name.toLowerCase().endsWith(".cpp");
+			}
+		});
+
+		for (String fileName : files) {
+			File delFile = new File(outputFolder.getAbsolutePath() + File.separatorChar + fileName);
+			boolean res = delFile.delete();
+			System.out.println(res);
+		}
+
 	}
 
 	@Override
