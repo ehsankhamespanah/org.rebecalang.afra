@@ -3,7 +3,6 @@
 
 <product name="Afra" uid="org.rebecalang.afra.ideplugins" id="org.rebecalang.afra.ideplugin.product" application="org.rebecalang.afra.ideplugin.application" version="1.0.0.qualifier" useFeatures="false" includeLaunchers="true">
 
-
    <configIni use="default">
    </configIni>
 
@@ -26,10 +25,16 @@
       <macosx icon="/org.rebecalang.afra.ideplugin/icons/alt_launcher.icns"/>
       <solaris/>
       <win useIco="false">
-         <bmp/>
+         <bmp
+            winSmallHigh="/org.rebecalang.afra.ideplugin/icons/logo-sizes/logo-16x16-32.bmp"
+            winSmallLow="/org.rebecalang.afra.ideplugin/icons/logo-sizes/logo-16x16-8.bmp"
+            winMediumHigh="/org.rebecalang.afra.ideplugin/icons/logo-sizes/logo-32x32-32.bmp"
+            winMediumLow="/org.rebecalang.afra.ideplugin/icons/logo-sizes/logo-32x32-8.bmp"
+            winLargeHigh="/org.rebecalang.afra.ideplugin/icons/logo-sizes/logo-48x48-32.bmp"
+            winLargeLow="/org.rebecalang.afra.ideplugin/icons/logo-sizes/logo-48x48-8.bmp"
+            winExtraLargeHigh="/org.rebecalang.afra.ideplugin/icons/logo-sizes/logo-256x256-32.bmp"/>
       </win>
    </launcher>
-
 
    <vm>
    </vm>
@@ -60,7 +65,6 @@
       <plugin id="org.eclipse.core.net"/>
       <plugin id="org.eclipse.core.resources"/>
       <plugin id="org.eclipse.core.runtime"/>
-      <plugin id="org.eclipse.core.runtime.compatibility.registry" fragment="true"/>
       <plugin id="org.eclipse.core.variables"/>
       <plugin id="org.eclipse.draw2d"/>
       <plugin id="org.eclipse.e4.core.commands"/>

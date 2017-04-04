@@ -31,8 +31,6 @@ import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.IWorkbenchPartReference;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.editors.text.TextEditor;
 import org.eclipse.ui.handlers.HandlerUtil;
@@ -89,7 +87,9 @@ public class ModelCheckingHandler extends AbstractHandler {
 			try {
 				BasicFileAttributes execAttr = Files.readAttributes(execFile, BasicFileAttributes.class);
 				BasicFileAttributes rebecaAttr = Files.readAttributes(rebecaFile, BasicFileAttributes.class);
-				BasicFileAttributes propAttr = Files.readAttributes(propertyFile, BasicFileAttributes.class);
+				BasicFileAttributes propAttr = propertyFile.toFile().exists() ? 
+						Files.readAttributes(propertyFile, BasicFileAttributes.class) :
+						rebecaAttr;
 				if (rebecaAttr.lastModifiedTime().toMillis() > execAttr.lastModifiedTime().toMillis() || 
 						propAttr.lastModifiedTime().toMillis() > execAttr.lastModifiedTime().toMillis() ) {
 					compilationResult = delagateToCompileCommand(event);

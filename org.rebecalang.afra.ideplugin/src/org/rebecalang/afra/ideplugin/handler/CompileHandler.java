@@ -45,9 +45,8 @@ public class CompileHandler extends AbstractHandler {
 	
 	private Object propertyModel;
 	
-	static String createErrorMessage(Exception e) {
-		return "Cannot create temp file.\n" + e.getMessage();
-	}
+	private boolean result;
+	private boolean doesUserCancel;
 
 	private static IMarker createMarker(IResource file, CodeCompilationException cce, boolean isWarning) {
 		try {
@@ -62,9 +61,6 @@ public class CompileHandler extends AbstractHandler {
 		}
 		return null;
 	}
-
-	private boolean result;
-	private boolean doesUserCancel;
 
 	public static boolean validateActiveFile(TextEditor codeEditor) {
 		if (codeEditor == null)
@@ -355,20 +351,20 @@ public class CompileHandler extends AbstractHandler {
 	}
 
 	private void clearFolder(File outputFolder) {
-		String files[] = outputFolder.list(new FilenameFilter() {
-			@Override
-			public boolean accept(File dir, String name) {
-				return name.toLowerCase().endsWith(".o") || name.toLowerCase().endsWith(".h") ||
-						name.toLowerCase().endsWith(".cpp");
+		if (outputFolder.exists()) {
+			String files[] = outputFolder.list(new FilenameFilter() {
+				@Override
+				public boolean accept(File dir, String name) {
+					return name.toLowerCase().endsWith(".o") || name.toLowerCase().endsWith(".h") ||
+							name.toLowerCase().endsWith(".cpp");
+				}
+			});
+
+			for (String fileName : files) {
+				File delFile = new File(outputFolder.getAbsolutePath() + File.separatorChar + fileName);
+				delFile.delete();
 			}
-		});
-
-		for (String fileName : files) {
-			File delFile = new File(outputFolder.getAbsolutePath() + File.separatorChar + fileName);
-			boolean res = delFile.delete();
-			System.out.println(res);
 		}
-
 	}
 
 	@Override
