@@ -252,11 +252,9 @@ public class CompileHandler extends AbstractHandler {
 			command[i + 1] = files[i];
 		command[files.length + 1] = "-w";
 		command[files.length + 2] = "-o";
-		if(unix) {
-			command[files.length + 3] = "-pthread";
-			command[files.length + 4] = "execute";
-		} else
-			command[files.length + 3] = "execute";			
+		command[files.length + 3] = "execute";			
+		if(unix)
+			command[files.length + 4] = "-pthread";
 		return command;
 	}
 
