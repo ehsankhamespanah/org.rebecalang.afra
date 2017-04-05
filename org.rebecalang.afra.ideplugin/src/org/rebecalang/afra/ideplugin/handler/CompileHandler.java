@@ -244,14 +244,19 @@ public class CompileHandler extends AbstractHandler {
 				return name.toLowerCase().endsWith(".o");
 			}
 		});
-		String command[] = new String[files.length + 4];
+		boolean unix = isUnix(System.getProperty("os.name"));
+		String command[] = new String[files.length + (unix ? 5 : 4)];
 
 		command[0] = "g++";
 		for (int i = 0; i < files.length; i++)
 			command[i + 1] = files[i];
 		command[files.length + 1] = "-w";
 		command[files.length + 2] = "-o";
-		command[files.length + 3] = "execute";
+		if(unix) {
+			command[files.length + 3] = "-pthread";
+			command[files.length + 4] = "execute";
+		} else
+			command[files.length + 3] = "execute";			
 		return command;
 	}
 
@@ -372,4 +377,7 @@ public class CompileHandler extends AbstractHandler {
 		return execute(event, true);
 	}
 
+	public static boolean isUnix(String OS) {
+		return (OS.indexOf("nix") >= 0 || OS.indexOf("nux") >= 0 || OS.indexOf("aix") > 0 );
+	}
 }
