@@ -202,7 +202,8 @@ public class ModelCheckingHandler extends AbstractHandler {
 						ModelCheckingReport modelCheckingReport = (ModelCheckingReport) unmarshaller.unmarshal(modelCheckingResultFile);
 						view.setReport(modelCheckingReport);
 						if (modelCheckingReport != null)
-							if (!modelCheckingReport.getCheckedProperty().getResult().equals("satisfied")) {
+							if (!modelCheckingReport.getCheckedProperty().getResult().equals("satisfied") &&
+									!modelCheckingReport.getCheckedProperty().getResult().endsWith("(heap overflow)")) {
 								ViewUtils.counterExampleVisible(true);
 								CounterExampleGraphView ceView = 
 										(CounterExampleGraphView) ViewUtils.getViewPart(CounterExampleGraphView.class.getName());
