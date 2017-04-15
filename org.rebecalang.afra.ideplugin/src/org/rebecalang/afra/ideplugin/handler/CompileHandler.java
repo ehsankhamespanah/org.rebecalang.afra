@@ -194,7 +194,8 @@ public class CompileHandler extends AbstractHandler {
 					});
 			if (!doesUserCancel) {
 				if (result) {
-					storeDefinedPropertiesNames(codeEditor.getEditorInput().getAdapter(IFile.class).getProject());
+					IProject project = codeEditor.getEditorInput().getAdapter(IFile.class).getProject();
+					storeDefinedPropertiesNames(project, activeFile.getName());
 					compilationResult = true;
 					if (showDialog)
 						MessageDialog.openInformation(
@@ -216,7 +217,7 @@ public class CompileHandler extends AbstractHandler {
 		return compilationResult;
 	}
 
-	private void storeDefinedPropertiesNames(IProject project) throws CoreException {
+	private void storeDefinedPropertiesNames(IProject project, String fileName) throws CoreException {
 		String definedProperties = "";
 		if (propertyModel instanceof org.rebecalang.compiler.propertycompiler.corerebeca.objectmodel.PropertyModel) {
 			org.rebecalang.compiler.propertycompiler.corerebeca.objectmodel.PropertyModel model = 
@@ -229,7 +230,7 @@ public class CompileHandler extends AbstractHandler {
 //			for (TCTLDefinition definition : model.getTCTLDefinitions())
 //				definedProperties += definition.getName() + ";";
 		}
-		project.setPersistentProperty(new QualifiedName("rebeca", "definedProperties"), definedProperties);
+		project.setPersistentProperty(new QualifiedName("definedProperties", fileName), definedProperties);
 	}
 
 	public static void showNoActiveRebecaFileErrorDialog(ExecutionEvent event) {
@@ -307,7 +308,7 @@ public class CompileHandler extends AbstractHandler {
 		clearFolder(outputFolder);
 		GenerateFiles.getInstance().generateFiles(rebecaFile.getRawLocation().toFile(), propertyFile, outputFolder,
 				compilerFeatures, analysisFeatures, properties);
-		
+		int a = 10;
 		propertyModel = GenerateFiles.getInstance().getPropertyModel();
 		IFile propertyFileResource = null;
 		if (propertyFile != null)

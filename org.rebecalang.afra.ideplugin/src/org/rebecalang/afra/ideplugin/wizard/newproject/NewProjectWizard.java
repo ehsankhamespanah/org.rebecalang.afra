@@ -28,7 +28,8 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 				pageTwo.getType(), 
 				pageTwo.getVersion(),
 				pageTwo.isRunInSafeMode(),
-				pageTwo.isExportStateSpace());
+				pageTwo.isExportStateSpace(),
+				pageTwo.isCreateSampleContent());
 		return true;
 	}
 

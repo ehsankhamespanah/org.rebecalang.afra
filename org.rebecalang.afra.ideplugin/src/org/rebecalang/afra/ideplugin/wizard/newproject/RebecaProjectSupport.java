@@ -1,9 +1,13 @@
 package org.rebecalang.afra.ideplugin.wizard.newproject;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringWriter;
 import java.net.URI;
 
+import org.apache.commons.io.IOUtils;
 import org.eclipse.core.resources.ICommand;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
@@ -32,7 +36,7 @@ public class RebecaProjectSupport {
 	 * @throws CoreException
 	 */
 	public static IProject createProject(String projectName, URI location, String type,
-			CompilerFeature version, boolean runInSafeMode, boolean exportStateSpace) {
+			CompilerFeature version, boolean runInSafeMode, boolean exportStateSpace, boolean createSampleProjects) {
 		Assert.isNotNull(projectName);
 		Assert.isTrue(projectName.trim().length() > 0);
 
@@ -50,16 +54,7 @@ public class RebecaProjectSupport {
 
 			addNatures(project, type, version);
 			
-			createFiles(project);
-
-//			String[] pathSrc = { "src" };
-//			addToProjectStructure(project, pathSrc, "folder");
-//
-//			String[] pathOut = { "out" };
-//			addToProjectStructure(project, pathOut, "folder");
-//
-//			String[] path_files = { "src/" + projectName + ".property", "src/" + projectName + ".rebeca" };
-//			addToProjectStructure(project, path_files, "file");
+			createFiles(project, createSampleProjects, type);
 
 		} catch (CoreException e) {
 			e.printStackTrace();
@@ -67,18 +62,43 @@ public class RebecaProjectSupport {
 		}
 		return project;
 	}
+	
+	private static void copyFile(IProject project, String fileName) {
+		StringWriter writer = new StringWriter();
+		try {
+			IOUtils.copy(RebecaProjectSupport.class.getResource("/samples/" + fileName).openStream(), writer);
+			IFile file = project.getFile("src/" + fileName);
+			createFile(file, writer.toString());
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (CoreException e) {
+			e.printStackTrace();
+		}					
+	}
 
-	private static void createFiles(IProject project) throws CoreException {
+	private static void createFiles(IProject project, boolean createSampleProject, String type) throws CoreException {
 		IFolder folder = project.getFolder("src");
 		createFolder(folder);
 		folder = project.getFolder("out");
 		createFolder(folder);
 		
 		String projectName = project.getName();
-		IFile file = project.getFile("src/"+ projectName + ".property");
-		createFile(file, "property { \n\n\n}");
-		file = project.getFile("src/"+ projectName + ".rebeca");
-		createFile(file);
+		if (!createSampleProject) {
+			IFile file = project.getFile("src/"+ projectName + ".property");
+			createFile(file, "property { \n\n\n}");
+			file = project.getFile("src/"+ projectName + ".rebeca");
+			createFile(file);			
+		} else {
+			if (type.equals("CoreRebeca")) {
+				copyFile(project, "DiningPhilsophers.rebeca");
+				copyFile(project, "DiningPhilsophers.property");
+				copyFile(project, "TrainController.rebeca");
+				copyFile(project, "TrainController.property");
+			} else if (type.equals("TimedRebeca")) {
+				copyFile(project, "TinyOS-MACB.rebeca");
+				copyFile(project, "TicketService.rebeca");
+			}
+		}
 
 	}
 

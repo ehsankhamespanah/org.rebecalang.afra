@@ -98,7 +98,7 @@ public class ModelCheckingHandler extends AbstractHandler {
 				compilationResult = delagateToCompileCommand(event);
 			}
 			if (compilationResult) {
-				String definedProperties = activeFile.getProject().getPersistentProperty(new QualifiedName("rebeca", "definedProperties"));
+				String definedProperties = activeFile.getProject().getPersistentProperty(new QualifiedName("definedProperties", activeFile.getName()));
 				
 				String[] properiesNameList = definedProperties.isEmpty() ? new String[0] : definedProperties.split(";");
 

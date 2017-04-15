@@ -1,0 +1,11 @@
+property {
+	define{
+		train1Stat = train1.onTheBridge;
+		train2Stat = train2.onTheBridge;
+	}
+	
+	LTL{
+		NoStarvation: G(F(train1Stat) && F(train2Stat));
+		Safetly: G(!(train1Stat && train2Stat));
+	}
+}

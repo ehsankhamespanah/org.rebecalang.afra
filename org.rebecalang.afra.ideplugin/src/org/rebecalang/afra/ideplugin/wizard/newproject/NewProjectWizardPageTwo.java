@@ -16,10 +16,10 @@ public class NewProjectWizardPageTwo extends WizardPage {
 	private Text text1;
 	private Composite container;
 
-	private static final String TYPE_1 = "Core Rebeca";
-	private static final String TYPE_2 = "Timed Rebeca";
-	private static final String TYPE_3 = "Probabilistic Rebeca";
-	private static final String TYPE_4 = "Probabilistic Timed Rebeca";
+	public static final String CORE_REBECA = "Core Rebeca";
+	public static final String TIMED_REBECA = "Timed Rebeca";
+	public static final String PROBABILISTIC_REBECA = "Probabilistic Rebeca";
+	public static final String PROBABILISTIC_TIMED_REBECA = "Probabilistic Timed Rebeca";
 
 	private static final String VERSION_1 = "2.0";
 	private static final String VERSION_2 = "2.1\t\t\t\t\t";
@@ -29,6 +29,7 @@ public class NewProjectWizardPageTwo extends WizardPage {
 	String projectExtention;
 	protected boolean runInSafeMode;
 	protected boolean exportStateSpace;
+	protected boolean createSampleContent;
 	
 	public boolean isRunInSafeMode() {
 		return runInSafeMode;
@@ -36,6 +37,10 @@ public class NewProjectWizardPageTwo extends WizardPage {
 	
 	public boolean isExportStateSpace() {
 		return exportStateSpace;
+	}
+	
+	public boolean isCreateSampleContent() {
+		return createSampleContent;
 	}
 	
 	public NewProjectWizardPageTwo() {
@@ -62,7 +67,7 @@ public class NewProjectWizardPageTwo extends WizardPage {
 
 		Button button;
 		button = new Button(type, SWT.RADIO);
-		button.setText(TYPE_1);
+		button.setText(CORE_REBECA);
 		button.setSelection(true);
 		button.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent e) {
@@ -75,7 +80,7 @@ public class NewProjectWizardPageTwo extends WizardPage {
 		});
 
 		button = new Button(type, SWT.RADIO);
-		button.setText(TYPE_2);
+		button.setText(TIMED_REBECA);
 		button.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent e) {
 				widgetDefaultSelected(e);
@@ -87,7 +92,7 @@ public class NewProjectWizardPageTwo extends WizardPage {
 		});
 
 		button = new Button(type, SWT.RADIO);
-		button.setText(TYPE_3);
+		button.setText(PROBABILISTIC_REBECA);
 		button.setEnabled(false);
 		button.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent e) {
@@ -100,7 +105,7 @@ public class NewProjectWizardPageTwo extends WizardPage {
 		});
 
 		button = new Button(type, SWT.RADIO);
-		button.setText(TYPE_4);
+		button.setText(PROBABILISTIC_TIMED_REBECA);
 		button.setEnabled(false);
 		button.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent e) {
@@ -191,6 +196,21 @@ public class NewProjectWizardPageTwo extends WizardPage {
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				exportStateSpace = ((Button)e.getSource()).getSelection();
+			}
+		});
+		
+		button = new Button(runtimeconfig, SWT.CHECK);
+		button.setText("Create sample content");
+		button.addSelectionListener(new SelectionListener() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				widgetDefaultSelected(e);
+			}
+			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+				createSampleContent = ((Button)e.getSource()).getSelection();
 			}
 		});
 		
