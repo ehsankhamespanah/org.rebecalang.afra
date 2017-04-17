@@ -308,11 +308,10 @@ public class CompileHandler extends AbstractHandler {
 		clearFolder(outputFolder);
 		GenerateFiles.getInstance().generateFiles(rebecaFile.getRawLocation().toFile(), propertyFile, outputFolder,
 				compilerFeatures, analysisFeatures, properties);
-		int a = 10;
 		propertyModel = GenerateFiles.getInstance().getPropertyModel();
 		IFile propertyFileResource = null;
 		if (propertyFile != null)
-			project.getWorkspace().getRoot().getFileForLocation(new Path(propertyFile.getAbsolutePath()));
+			propertyFileResource = project.getWorkspace().getRoot().getFileForLocation(new Path(propertyFile.getAbsolutePath()));
 		for (Exception e : GenerateFiles.getInstance().getExceptionContainer().getWarnings()) {
 			if (e instanceof CodeCompilationException) {
 				CodeCompilationException cce = (CodeCompilationException) e;
