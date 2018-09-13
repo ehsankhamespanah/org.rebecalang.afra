@@ -34,6 +34,14 @@ Contributors:
 						<linux>tar.gz</linux>
 						<macosx>tar.gz</macosx>
 					</formats>
+					<products>
+						<product>
+							<id>org.rebecalang.afra.ideplugins</id>
+							<rootFolders>
+								<macosx>Afra.app</macosx>
+							</rootFolders>
+						</product>
+					</products>
 				</configuration>
 				<executions>
 					<execution>

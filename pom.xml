@@ -20,16 +20,28 @@ Contributors:
 
    <repositories>
    	<repository>
-      <id>eclipse-neon</id>
+      <id>eclipse-oxygen</id>
       <layout>p2</layout>
-      <url>http://download.eclipse.org/releases/neon</url>
+      <url>http://download.eclipse.org/releases/oxygen</url>
    </repository>
 </repositories>
+  <pluginRepositories>
+  <pluginRepository>
+    <id>tycho-snapshots</id>
+    <url>https://repo.eclipse.org/content/repositories/tycho-snapshots/</url>
+    <snapshots>
+      <enabled>true</enabled>
+    </snapshots>
+  </pluginRepository>
+  </pluginRepositories>
 
 	<properties>
-		<tycho-version>0.26.0</tycho-version>
+		<tycho-version>1.1.0</tycho-version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	    <maven.compiler.source>8</maven.compiler.source>
+	    <maven.compiler.target>8</maven.compiler.target>
 	</properties>
+ 
 
 	<modules>
 		<module>org.rebecalang.afra.repository</module>
@@ -42,13 +54,31 @@ Contributors:
 		<plugins>
 			<plugin>
 				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-compiler-plugin</artifactId>
+				<version>${tycho-version}</version>
+				<dependencies>
+					<!-- use BETA JAVA10 binaries of JDT -->
+					<dependency>
+						<groupId>org.eclipse.tycho</groupId>
+						<artifactId>org.eclipse.jdt.core</artifactId>
+						<version>3.13.102.v20180228-1105_BETA_JAVA10-SNAPSHOT</version>
+					</dependency>
+					<dependency>
+						<groupId>org.eclipse.tycho</groupId>
+						<artifactId>org.eclipse.jdt.compiler.apt</artifactId>
+						<version>1.3.60.v20180214-1634_BETA_JAVA10-SNAPSHOT</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
 				<artifactId>target-platform-configuration</artifactId>
 				<version>${tycho-version}</version>
 				<configuration>
 					<target>
 						<artifact>
 							<groupId>org.rebecalang.afra</groupId>
-							<artifactId>neon</artifactId>
+							<artifactId>oxygen</artifactId>
 							<version>3.0.0-SNAPSHOT</version>
 						</artifact>
 					</target>
