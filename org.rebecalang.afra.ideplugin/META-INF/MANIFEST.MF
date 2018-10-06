@@ -23,9 +23,10 @@ Require-Bundle: javax.inject,
  org.eclipse.ui.workbench,
  org.eclipse.ui.ide.application,
  org.eclipse.zest.core,
- org.eclipse.zest.layouts
+ org.eclipse.zest.layouts,
+ org.eclipse.e4.ui.workbench.renderers.swt;bundle-version="0.14.102.v20180117-1153"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: javax.inject;version="1.0.0"
 Bundle-ActivationPolicy: lazy
-Bundle-ClassPath: .,
- libs/rmc-2.7.3.jar
+Bundle-ClassPath: .,libs/rmc-2.7.4.jar
+

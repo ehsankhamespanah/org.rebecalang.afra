@@ -1,7 +1,6 @@
 package org.rebecalang.afra.ideplugin.wizard.newproject;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
@@ -18,10 +17,11 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.QualifiedName;
 import org.rebecalang.afra.ideplugin.nature.RebecaNature;
 import org.rebecalang.afra.ideplugin.nature.SampleBuilder;
 import org.rebecalang.afra.ideplugin.nature.TimedRebecaNature;
+import org.rebecalang.afra.ideplugin.preference.CoreRebecaProjectPropertyPage;
+import org.rebecalang.afra.ideplugin.preference.TimedRebecaProjectPropertyPage;
 import org.rebecalang.compiler.utils.CompilerFeature;
 
 public class RebecaProjectSupport {
@@ -43,14 +43,10 @@ public class RebecaProjectSupport {
 		IProject project = createBaseProject(projectName, location);
 
 		try {
-			project.setPersistentProperty(
-					new QualifiedName("rebeca", "languageVersion"), version.toString());
-			project.setPersistentProperty(
-					new QualifiedName("rebeca", "projectType"), type);
-			project.setPersistentProperty(
-					new QualifiedName("rebeca", "runInSafeMode"), Boolean.toString(runInSafeMode));
-			project.setPersistentProperty(
-					new QualifiedName("rebeca", "exportStateSpace"), Boolean.toString(exportStateSpace));
+			CoreRebecaProjectPropertyPage.setProjectType(project, type);
+			CoreRebecaProjectPropertyPage.setProjectLanguageVersion(project, version);
+			CoreRebecaProjectPropertyPage.setProjectRunInSafeMode(project, runInSafeMode);
+			CoreRebecaProjectPropertyPage.setProjectExportStateSpace(project, exportStateSpace);
 
 			addNatures(project, type, version);
 			
@@ -63,6 +59,7 @@ public class RebecaProjectSupport {
 		return project;
 	}
 	
+	@SuppressWarnings("deprecation")
 	private static void copyFile(IProject project, String fileName) {
 		StringWriter writer = new StringWriter();
 		try {
@@ -155,27 +152,6 @@ public class RebecaProjectSupport {
 			file.create(source, IResource.NONE, null);
 		}
 	}
-	/**
-	 * Create a folder structure with a parent root, overlay, and a few child
-	 * folders.
-	 *
-	 * @param newProject
-	 * @param paths
-	 * @throws CoreException
-	 */
-//	private static void addToProjectStructure(IProject newProject, String[] paths, String type) throws CoreException {
-//		if (type == "folder") {
-//			for (String path : paths) {
-//				IFolder etcFolders = newProject.getFolder(path);
-//				createFolder(etcFolders);
-//			}
-//		} else if (type == "file") {
-//			for (String path : paths) {
-//				IFile etcFiles = newProject.getFile(path);
-//				createFile(etcFiles);
-//			}
-//		}
-//	}
 
 	private static void addNatures(IProject project, String type, CompilerFeature version) throws CoreException {
 
@@ -198,16 +174,16 @@ public class RebecaProjectSupport {
 			String[] newNatures = new String[prevNatures.length + 1];
 			System.arraycopy(prevNatures, 0, newNatures, 0, prevNatures.length);
 			newNatures[prevNatures.length] = RebecaNature.NATURE_ID;
-//			description.setNatureIds(newNatures);
 
 			if (type.equals("TimedRebeca") || type.equals("ProbabilisticTimedRebeca")) {
 				prevNatures = description.getNatureIds();
 				newNatures = new String[prevNatures.length + 1];
 				System.arraycopy(prevNatures, 0, newNatures, 0, prevNatures.length);
 				newNatures[prevNatures.length] = TimedRebecaNature.NATURE_ID;
-				description.setNatureIds(newNatures);
+				TimedRebecaProjectPropertyPage.setProjectSemanticsModelIsTTS(project, true);
 			}
 
+			description.setNatureIds(newNatures);
 			project.setDescription(description, null);
 		}
 	}

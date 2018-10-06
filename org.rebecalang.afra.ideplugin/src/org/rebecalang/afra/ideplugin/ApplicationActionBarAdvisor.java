@@ -103,10 +103,12 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
         super.dispose();
     }
 
-    @Override
+    @SuppressWarnings("deprecation")
+	@Override
     protected void makeActions(final IWorkbenchWindow window)
     {
         super.makeActions(window);
+        /*
         this.statusLineItem = new StatusLineContributionItem("ModeContributionItem"); //$NON-NLS-1$
 
         register(this.fileNewAction = ActionFactory.NEW_WIZARD_DROP_DOWN.create(window));
@@ -186,9 +188,10 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
         register(this.hideShowEditorAction);
         this.lockToolBarAction = ActionFactory.LOCK_TOOL_BAR.create(window);
         register(this.lockToolBarAction);
-
+*/
     }
 
+	/*
     @Override
     protected void fillStatusLine(IStatusLineManager statusLine)
     {
@@ -324,5 +327,5 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
         }
         return submenu;
     }
-    
+    */
 }
