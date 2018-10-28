@@ -1,23 +1,8 @@
 package org.rebecalang.afra.ideplugin;
 
-import org.eclipse.jface.action.ActionContributionItem;
-import org.eclipse.jface.action.GroupMarker;
-import org.eclipse.jface.action.IContributionItem;
-import org.eclipse.jface.action.ICoolBarManager;
-import org.eclipse.jface.action.IMenuManager;
-import org.eclipse.jface.action.IStatusLineManager;
-import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
-import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.action.StatusLineContributionItem;
-import org.eclipse.jface.action.ToolBarContributionItem;
-import org.eclipse.jface.action.ToolBarManager;
-import org.eclipse.swt.SWT;
-import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.actions.ActionFactory;
-import org.eclipse.ui.actions.ActionFactory.IWorkbenchAction;
-import org.eclipse.ui.actions.ContributionItemFactory;
 import org.eclipse.ui.application.ActionBarAdvisor;
 import org.eclipse.ui.application.IActionBarConfigurer;
 import org.eclipse.ui.menus.IMenuService;
@@ -29,58 +14,58 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
     private MenuManager coolbarPopupMenuManager;
     private StatusLineContributionItem statusLineItem;
     
-    private IWorkbenchAction fileNewAction;
-    private IWorkbenchAction fileCloseAction;
-    private IWorkbenchAction fileCloseAllAction;
-    private IWorkbenchAction fileCloseOthersAction;
-    private IWorkbenchAction fileSaveAction;
-    private IWorkbenchAction fileSaveAllAction;
-    private IWorkbenchAction fileImportResourcesAction;
-    private IWorkbenchAction fileExportResourcesAction;
-    private IWorkbenchAction filePropertiesAction;
-    private IWorkbenchAction fileQuitAction;
-
-    private IWorkbenchAction editUndoAction;
-    private IWorkbenchAction editRedoAction;
-    private IWorkbenchAction editCutAction;
-    private IWorkbenchAction editCopyAction;
-    private IWorkbenchAction editPasteAction;
-    private IWorkbenchAction editDeleteAction;
-    private IWorkbenchAction editSelectAllAction;
-    private IWorkbenchAction editFindAction;
-
-    private IWorkbenchAction winNewWindowAction;
-    private MenuManager winOpenOperspectiveMenu;
-    private MenuManager winShowViewMenu;
-    private IWorkbenchAction winEditActionSetAction;
-    private IWorkbenchAction winSavePerspectiveAction;
-    private IWorkbenchAction winResetPerspectiveAction;
-    private IWorkbenchAction winClosePerspectiveAction;
-    private IWorkbenchAction winCloseAllPerspectivesAction;
-    private MenuManager winShortcutsMenu;
-    private IWorkbenchAction winOpenPreferencesAction;
-    private IContributionItem winOpenWindowsItem;
-
-    private IWorkbenchAction helpContentsAction;
-    private IWorkbenchAction helpSearchAction;
-    private IWorkbenchAction helpDynamicHelpAction;
-    private IWorkbenchAction helpAboutAction;
-
-    private IWorkbenchAction scutShowPartPaneMenuAction;
-    private IWorkbenchAction scutShowViewMenuAction;
-    private IWorkbenchAction scutMaximizePartAction;
-    private IWorkbenchAction scutMinimizePartAction;
-    private IWorkbenchAction scutActivateEditorAction;
-    private IWorkbenchAction scutNextEditorAction;
-    private IWorkbenchAction scutPrevEditorAction;
-    private IWorkbenchAction scutSwitchToEditorAction;
-    private IWorkbenchAction scutNextPartAction;
-    private IWorkbenchAction scutPrevPartAction;
-    private IWorkbenchAction scutNextPerspectiveAction;
-    private IWorkbenchAction scutPrevPerspectiveAction;
-
-    private IWorkbenchAction hideShowEditorAction;
-    private IWorkbenchAction lockToolBarAction;
+//    private IWorkbenchAction fileNewAction;
+//    private IWorkbenchAction fileCloseAction;
+//    private IWorkbenchAction fileCloseAllAction;
+//    private IWorkbenchAction fileCloseOthersAction;
+//    private IWorkbenchAction fileSaveAction;
+//    private IWorkbenchAction fileSaveAllAction;
+//    private IWorkbenchAction fileImportResourcesAction;
+//    private IWorkbenchAction fileExportResourcesAction;
+//    private IWorkbenchAction filePropertiesAction;
+//    private IWorkbenchAction fileQuitAction;
+//
+//    private IWorkbenchAction editUndoAction;
+//    private IWorkbenchAction editRedoAction;
+//    private IWorkbenchAction editCutAction;
+//    private IWorkbenchAction editCopyAction;
+//    private IWorkbenchAction editPasteAction;
+//    private IWorkbenchAction editDeleteAction;
+//    private IWorkbenchAction editSelectAllAction;
+//    private IWorkbenchAction editFindAction;
+//
+//    private IWorkbenchAction winNewWindowAction;
+//    private MenuManager winOpenOperspectiveMenu;
+//    private MenuManager winShowViewMenu;
+//    private IWorkbenchAction winEditActionSetAction;
+//    private IWorkbenchAction winSavePerspectiveAction;
+//    private IWorkbenchAction winResetPerspectiveAction;
+//    private IWorkbenchAction winClosePerspectiveAction;
+//    private IWorkbenchAction winCloseAllPerspectivesAction;
+//    private MenuManager winShortcutsMenu;
+//    private IWorkbenchAction winOpenPreferencesAction;
+//    private IContributionItem winOpenWindowsItem;
+//
+//    private IWorkbenchAction helpContentsAction;
+//    private IWorkbenchAction helpSearchAction;
+//    private IWorkbenchAction helpDynamicHelpAction;
+//    private IWorkbenchAction helpAboutAction;
+//
+//    private IWorkbenchAction scutShowPartPaneMenuAction;
+//    private IWorkbenchAction scutShowViewMenuAction;
+//    private IWorkbenchAction scutMaximizePartAction;
+//    private IWorkbenchAction scutMinimizePartAction;
+//    private IWorkbenchAction scutActivateEditorAction;
+//    private IWorkbenchAction scutNextEditorAction;
+//    private IWorkbenchAction scutPrevEditorAction;
+//    private IWorkbenchAction scutSwitchToEditorAction;
+//    private IWorkbenchAction scutNextPartAction;
+//    private IWorkbenchAction scutPrevPartAction;
+//    private IWorkbenchAction scutNextPerspectiveAction;
+//    private IWorkbenchAction scutPrevPerspectiveAction;
+//
+//    private IWorkbenchAction hideShowEditorAction;
+//    private IWorkbenchAction lockToolBarAction;
 
     public ApplicationActionBarAdvisor(IActionBarConfigurer configurer)
     {
@@ -103,7 +88,6 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
         super.dispose();
     }
 
-    @SuppressWarnings("deprecation")
 	@Override
     protected void makeActions(final IWorkbenchWindow window)
     {

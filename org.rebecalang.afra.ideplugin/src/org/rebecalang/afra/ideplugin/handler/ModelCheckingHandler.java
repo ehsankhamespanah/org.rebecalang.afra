@@ -40,7 +40,7 @@ import org.rebecalang.afra.ideplugin.propertypages.PropertySelectionDialog;
 import org.rebecalang.afra.ideplugin.view.AnalysisResultView;
 import org.rebecalang.afra.ideplugin.view.CounterExampleGraphView;
 import org.rebecalang.afra.ideplugin.view.ViewUtils;
-import org.rebecalang.afra.ideplugin.view.modelcheckreport.resultobjectmodel.ModelCheckingReport;
+import org.rebecalang.afra.ideplugin.view.modelcheckreport.resultobjectmodel.counterexample.analysisresult.ModelCheckingReport;
 
 public class ModelCheckingHandler extends AbstractAnalysisHandler {
 	

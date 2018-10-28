@@ -36,6 +36,12 @@
 									<version>2.7.4</version>
 									<outputDirectory>libs</outputDirectory>
 								</artifactItem>
+								<artifactItem>
+									<groupId>org.rebecalang</groupId>
+									<artifactId>statespacetransformer</artifactId>
+									<version>1.0.0</version>
+									<outputDirectory>libs</outputDirectory>
+								</artifactItem>
 							</artifactItems>
 							<!-- other configurations here -->
 						</configuration>

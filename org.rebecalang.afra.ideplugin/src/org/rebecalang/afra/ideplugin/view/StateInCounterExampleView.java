@@ -63,11 +63,11 @@ public class StateInCounterExampleView extends ViewPart {
 				items.add(new Object[] { "State Variables", parent.getStatevariables() });
 				items.add(new Object[] { "Queue Content", parent.getQueue()});
 				if (parent.getNow() != null)
-					items.add(new String[] { "Now", (parent.getNow().equals(Integer.toString(Integer.MAX_VALUE)) ? "infinity" : parent.getNow()) });
+					items.add(new String[] { "Now", (parent.getNow().equals(Integer.toString(Integer.MAX_VALUE)) ? "infinity" : parent.getNow().toString()) });
 				if (parent.getPc() != null)
-					items.add(new String[] { "Program Counter", parent.getPc() });
+					items.add(new String[] { "Program Counter", parent.getPc().toString() });
 				if (parent.getRes() != null)
-					items.add(new String[] { "Resuming Time", parent.getRes() });
+					items.add(new String[] { "Resuming Time", parent.getRes().toString() });
 			} else if (parentElement instanceof Object[]) {
 				Object secondElement = ((Object[]) parentElement)[1];
 				if (secondElement instanceof Statevariables) {

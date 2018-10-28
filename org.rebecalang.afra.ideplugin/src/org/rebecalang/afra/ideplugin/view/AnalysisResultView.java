@@ -25,9 +25,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.ui.part.ViewPart;
-import org.rebecalang.afra.ideplugin.view.modelcheckreport.resultobjectmodel.CheckedProperty;
-import org.rebecalang.afra.ideplugin.view.modelcheckreport.resultobjectmodel.ModelCheckingReport;
-import org.rebecalang.afra.ideplugin.view.modelcheckreport.resultobjectmodel.SystemInfo;
+import org.rebecalang.afra.ideplugin.view.modelcheckreport.resultobjectmodel.counterexample.analysisresult.CheckedProperty;
+import org.rebecalang.afra.ideplugin.view.modelcheckreport.resultobjectmodel.counterexample.analysisresult.ModelCheckingReport;
+import org.rebecalang.afra.ideplugin.view.modelcheckreport.resultobjectmodel.counterexample.analysisresult.SystemInfo;
 
 /**
  * The Problems view is the view supplied by the IDE to show problems.
@@ -69,13 +69,18 @@ public class AnalysisResultView extends ViewPart {
 			if (parentElement instanceof SystemInfo) {
 				SystemInfo systemInfo = (SystemInfo) parentElement;
 				childs = new Object[4][];
-				childs[0] = new String[]{"Total Spent Time", systemInfo.getTotalSpentTime()};
-				childs[1] = new String[]{"Number of Reached States", systemInfo.getReachedStates()};
-				childs[2] = new String[]{"Number of Reached Transitions", systemInfo.getReachedTransitions()};
-				childs[3] = new String[]{"Consumed Memory", systemInfo.getConsumedMem()};
+				childs[0] = new String[]{"Total Spent Time", systemInfo.getTotalSpentTime().toString()};
+				childs[1] = new String[]{"Number of Reached States", systemInfo.getReachedStates().toString()};
+				childs[2] = new String[]{"Number of Reached Transitions", systemInfo.getReachedTransitions().toString()};
+				childs[3] = new String[]{"Consumed Memory", systemInfo.getConsumedMem().toString()};
 			} else if (parentElement instanceof CheckedProperty) {
 				CheckedProperty checkedProperty = (CheckedProperty) parentElement;
-				childs = new Object[3][];
+				if (checkedProperty.getMessage() == null) {
+					childs = new Object[3][];
+				} else {
+					childs = new Object[4][];
+					childs[3] = new String[]{"Message", checkedProperty.getMessage()};
+				}
 				childs[0] = new String[]{"Property Name", checkedProperty.getName()};
 				childs[1] = new String[]{"Property Type", checkedProperty.getType()};
 				childs[2] = new String[]{"Analysis Result", checkedProperty.getResult()};

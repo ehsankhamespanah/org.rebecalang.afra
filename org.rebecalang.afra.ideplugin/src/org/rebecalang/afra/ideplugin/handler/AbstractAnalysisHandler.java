@@ -26,10 +26,11 @@ public class AbstractAnalysisHandler {
 	}
 
 
-	private File getFileFromByReplacingExtension(IFile file, String newExtension) {
+	public static File getFileFromByReplacingExtension(IFile file, String newExtension) {
 		return new File(file.getLocation().toString().substring(0,
 				file.getRawLocation().toString().lastIndexOf(file.getFileExtension())) + newExtension);
 	}
+	
 	public File getRebecaFileFromPropertyFile(IFile propertyFile) {
 		return getFileFromByReplacingExtension(propertyFile, "rebeca");
 	}

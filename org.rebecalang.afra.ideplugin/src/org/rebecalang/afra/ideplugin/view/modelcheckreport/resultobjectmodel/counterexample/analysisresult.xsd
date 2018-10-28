@@ -1,0 +1,59 @@
+<xs:schema attributeFormDefault="unqualified"
+	elementFormDefault="qualified"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:jxb="http://java.sun.com/xml/ns/jaxb"
+    jxb:version="2.1">
+
+	<xs:element name="model-checking-report">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="system-info" />
+				<xs:element ref="checked-property" />
+				<xs:element ref="extra-details" minOccurs="0"
+					maxOccurs="1" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="system-info">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="total-spent-time" type="xs:decimal" />
+				<xs:element name="reached-states" type="xs:decimal" />
+				<xs:element name="reached-transitions" type="xs:decimal" />
+				<xs:element name="consumed-mem" type="xs:decimal" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="checked-property">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="type" type="xs:string" />
+				<xs:element name="name" type="xs:string" />
+				<xs:element name="result" type="xs:string" />
+				<xs:element name="message" type="xs:string" minOccurs="0"
+					maxOccurs="1" />
+				<xs:element ref="options" minOccurs="0" maxOccurs="1" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="options">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="option" type="xs:decimal" minOccurs="0"
+					maxOccurs="unbounded" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="extra-details">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:any minOccurs="0" maxOccurs="unbounded" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+</xs:schema>

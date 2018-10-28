@@ -22,8 +22,9 @@ import org.eclipse.zest.core.widgets.GraphConnection;
 import org.eclipse.zest.core.widgets.GraphNode;
 import org.eclipse.zest.core.widgets.ZestStyles;
 import org.rebecalang.afra.ideplugin.view.modelcheckreport.resultobjectmodel.counterexample.state.State;
-import org.rebecalang.afra.ideplugin.view.modelcheckreport.resultobjectmodel.counterexample.transition.Transition;
 import org.rebecalang.afra.ideplugin.view.modelcheckreport.resultobjectmodel.counterexample.transition.Messageserver;
+import org.rebecalang.afra.ideplugin.view.modelcheckreport.resultobjectmodel.counterexample.transition.Time;
+import org.rebecalang.afra.ideplugin.view.modelcheckreport.resultobjectmodel.counterexample.transition.Transition;
 
 public class CounterExampleGraphView extends ViewPart {
 
@@ -187,9 +188,15 @@ public class CounterExampleGraphView extends ViewPart {
 			
 			GraphConnection gc = new GraphConnection(graph, ZestStyles.CONNECTIONS_DIRECTED, 
 					states.get(source), states.get(destination));
-			Messageserver messageserver = transition.getMessageserver();
-			String messageText = messageserver.getOwner() + "." + messageserver.getTitle() + " from " +
-					messageserver.getSender();
+			String messageText = "";
+			if (transition.getMessageserver() != null) {
+				Messageserver messageserver = transition.getMessageserver();
+				messageText = messageserver.getOwner() + "." + messageserver.getTitle() + " from " +
+						messageserver.getSender();				
+			} else if(transition.getTime() != null) {
+				Time time = transition.getTime();
+				messageText = "Time progress by " + time.getProgressOfTime().toString() + " units";
+			}
 			if (transition.getExecutionTime() != null)
 				messageText += " @(" + transition.getExecutionTime() + ")";
 			gc.setText(messageText);
