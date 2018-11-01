@@ -308,6 +308,7 @@
   <menuContributions xmi:id="_ZX_UgMjMEeigoNKkiQ9rZw" elementId="org.eclipse.e4.tools.spy.menucontribution.0" contributorURI="platform:/plugin/org.eclipse.e4.tools.spy" positionInParent="after=additions" parentId="org.eclipse.ui.navigator.ProjectExplorer#PopupMenu">
     <children xsi:type="menu:Menu" xmi:id="_ZX_UgcjMEeigoNKkiQ9rZw" elementId="convertArtifacts" contributorURI="platform:/plugin/org.eclipse.e4.tools.spy" label="convert">
       <children xsi:type="menu:DirectMenuItem" xmi:id="_zAHiANqjEeit7Jg7cPcHYQ" elementId="org.rebecalang.afra.ideplugin.directmenuitem.dothething" label="ConvertToGraphviz" contributionURI="bundleclass://org.rebecalang.afra.ideplugin/org.rebecalang.afra.ideplugin.handler.popup.ConvertStateSpaceToGraphvizHandler"/>
+      <children xsi:type="menu:DirectMenuItem" xmi:id="_aUeCMd3FEeigKd7AdtrYlw" elementId="org.rebecalang.afra.ideplugin.directmenuitem.dothething" label="ConvertToROS" contributionURI="bundleclass://org.rebecalang.afra.ideplugin/org.rebecalang.afra.ideplugin.handler.popup.ConvertModelToROSHandler"/>
     </children>
   </menuContributions>
   <commands xmi:id="_Jac5wMjMEeigoNKkiQ9rZw" elementId="org.eclipse.ui.window.customizePerspective" contributorURI="platform:/plugin/org.eclipse.platform"/>

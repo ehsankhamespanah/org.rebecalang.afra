@@ -27,7 +27,7 @@ public class AbstractAnalysisHandler {
 
 
 	public static File getFileFromByReplacingExtension(IFile file, String newExtension) {
-		return new File(file.getLocation().toString().substring(0,
+		return new File(file.getRawLocation().toString().substring(0,
 				file.getRawLocation().toString().lastIndexOf(file.getFileExtension())) + newExtension);
 	}
 	
