@@ -31,12 +31,10 @@ jobs: # a collection of steps
             - ~/.m2
           key: afra
 
-      - save_cache: # saves the project dependencies
+      - persist_to_workspace: 
+          root: /home/circleci
           paths:
-            - ~/afra/org.rebecalang.afra.repository/target/products/
-          key: products-{{ checksum "~/afra/org.rebecalang.afra.repository/target/products/org.rebecalang.afra.ideplugins-macosx.cocoa.x86_64.tar.gz"}}
-
-      - run: ls ~/.m2/repository/org/rebecalang/afra/
+            - afra
 
   deploy_release: # runs not using Workflows must have a `build` job as entry point
     docker: # run the steps with Docker
@@ -45,8 +43,8 @@ jobs: # a collection of steps
     working_directory: ~/afra # directory where steps will run
 
     steps: # a collection of executable commands
-      - restore_cache: # restore the saved cache after the first run or if `pom.xml` has changed
-          key: products-{{ checksum "~/afra/org.rebecalang.afra.repository/target/products/org.rebecalang.afra.ideplugins-macosx.cocoa.x86_64.tar.gz"}}
+      - attach_workspace:
+          at: /home/circleci
 
       - run: ls ~/.m2/repository/org/rebecalang/afra/
       - run: go get github.com/aktau/github-release
