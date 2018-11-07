@@ -30,7 +30,12 @@ jobs: # a collection of steps
           paths:
             - ~/.m2
           key: afra
-          force: yes
+
+      - save_cache: # saves the project dependencies
+          paths:
+            - ~/afra/org.rebecalang.afra.repository/target/products/
+          key: products-{{ checksum "~/afra/org.rebecalang.afra.repository/target/products/org.rebecalang.afra.ideplugins-macosx.cocoa.x86_64.tar.gz"}}
+
       - run: ls ~/.m2/repository/org/rebecalang/afra/
 
   deploy_release: # runs not using Workflows must have a `build` job as entry point
@@ -41,7 +46,8 @@ jobs: # a collection of steps
 
     steps: # a collection of executable commands
       - restore_cache: # restore the saved cache after the first run or if `pom.xml` has changed
-          key: afra
+          key: products-{{ checksum "~/afra/org.rebecalang.afra.repository/target/products/org.rebecalang.afra.ideplugins-macosx.cocoa.x86_64.tar.gz"}}
+
       - run: ls ~/.m2/repository/org/rebecalang/afra/
       - run: go get github.com/aktau/github-release
       #- run: git config user.name $CIRCLE_PROJECT_USERNAME
