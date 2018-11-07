@@ -7,6 +7,11 @@ jobs: # a collection of steps
     docker: # run the steps with Docker
       - image: circleci/openjdk:10-jdk # ...with this image as the primary container; this is where all `steps` will run
 
+    dependencies:
+      pre:
+        - go get github.com/aktau/github-release
+        - npm install github-release-notes -g
+
     steps: # a collection of executable commands
 
       - checkout # check out source code to working directory
@@ -30,4 +35,4 @@ jobs: # a collection of steps
       - run: git config user.name $CIRCLE_PROJECT_USERNAME
       - run: echo "$CIRCLE_PROJECT_USERNAME"
       - run: echo "$CIRCLE_TAG"
-      - run: github-release upload --user $CIRCLE_PROJECT_USERNAME --repo $CIRCLE_PROJECT_REPONAME --tag $CIRCLE_TAG --name "~/org.rebecalang.afra.repository/target/products/org.rebecalang.afra.ideplugins-macosx.cocoa.x86_64.tar.gz" --file org.rebecalang.afra.ideplugins-macosx.cocoa.x86_64.tar.gz
+      - run: github-release upload --user $CIRCLE_PROJECT_USERNAME --repo $CIRCLE_PROJECT_REPONAME --tag release --name "~/org.rebecalang.afra.repository/target/products/org.rebecalang.afra.ideplugins-macosx.cocoa.x86_64.tar.gz" --file org.rebecalang.afra.ideplugins-macosx.cocoa.x86_64.tar.gz
