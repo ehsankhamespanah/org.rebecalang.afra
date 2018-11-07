@@ -24,12 +24,13 @@ jobs: # a collection of steps
       - run: wget https://raw.githubusercontent.com/rebeca-lang/org.rebecalang.statespacetransformer/master/target/statespacetransformer-1.0.0.jar
       - run: mvn -N install:install-file -Dfile=statespacetransformer-1.0.0.jar -DgroupId=org.rebecalang -DartifactId=statespacetransformer -Dversion=1.0.0 -Dpackaging=jar
 
-      #- run: mvn install # run the actual tests
+      - run: mvn install # run the actual tests
 
       - save_cache: # saves the project dependencies
           paths:
             - ~/.m2
           key: afra
+      - run: ls ~/.m2/repository/org/rebecalang/afra/
 
   deploy_release: # runs not using Workflows must have a `build` job as entry point
     docker: # run the steps with Docker
@@ -52,6 +53,6 @@ workflows:
   build_and_deploy:
     jobs:
       - deploy_release #:
-      #    requires:
-      #      - build_products
-      #- build_products
+          requires:
+            - build_products
+      - build_products
