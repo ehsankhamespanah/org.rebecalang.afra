@@ -52,7 +52,7 @@ workflows:
   version: 2
   build_and_deploy:
     jobs:
-      - deploy_release #:
+      - deploy_release:
           requires:
             - build_products
       - build_products
