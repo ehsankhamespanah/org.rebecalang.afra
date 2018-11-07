@@ -26,14 +26,14 @@ jobs: # a collection of steps
       - run: wget https://raw.githubusercontent.com/rebeca-lang/org.rebecalang.statespacetransformer/master/target/statespacetransformer-1.0.0.jar
       - run: mvn -N install:install-file -Dfile=statespacetransformer-1.0.0.jar -DgroupId=org.rebecalang -DartifactId=statespacetransformer -Dversion=1.0.0 -Dpackaging=jar
 
-      #- run: mvn install # run the actual tests
+      - run: mvn install # run the actual tests
 
       - save_cache: # saves the project dependencies
           paths:
             - ~/.m2
           key: afra
-      #- run: go get github.com/aktau/github-release
-      #- run: git config user.name $CIRCLE_PROJECT_USERNAME
-      #- run: echo "$CIRCLE_PROJECT_USERNAME"
-      #- run: echo "$CIRCLE_TAG"
-      #- run: github-release upload --user $CIRCLE_PROJECT_USERNAME --repo $CIRCLE_PROJECT_REPONAME --tag release --name "~/org.rebecalang.afra.repository/target/products/org.rebecalang.afra.ideplugins-macosx.cocoa.x86_64.tar.gz" --file org.rebecalang.afra.ideplugins-macosx.cocoa.x86_64.tar.gz
+      - run: go get github.com/aktau/github-release
+      - run: git config user.name $CIRCLE_PROJECT_USERNAME
+      - run: echo "$CIRCLE_PROJECT_USERNAME"
+      - run: echo "$CIRCLE_TAG"
+      - run: github-release upload --user $CIRCLE_PROJECT_USERNAME --repo $CIRCLE_PROJECT_REPONAME --tag release --name "~/org.rebecalang.afra.repository/target/products/org.rebecalang.afra.ideplugins-macosx.cocoa.x86_64.tar.gz" --file org.rebecalang.afra.ideplugins-macosx.cocoa.x86_64.tar.gz
