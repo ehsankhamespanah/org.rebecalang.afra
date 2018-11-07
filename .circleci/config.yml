@@ -15,7 +15,7 @@ jobs: # a collection of steps
           key: afra-{{ checksum "pom.xml" }}
 
       - run: wget https://raw.githubusercontent.com/rebeca-lang/org.rebecalang.rmc/master/target/rmc-2.7.5.jar # gets the project dependencies
-      - run: mvn dependency:go-offline # gets the project dependencies
+      #- run: mvn dependency:go-offline # gets the project dependencies
 
       - save_cache: # saves the project dependencies
           paths:
