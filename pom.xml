@@ -46,7 +46,7 @@ Contributors:
 	<modules>
 		<module>org.rebecalang.afra.ideplugin</module>
 		<module>org.rebecalang.afra.feature</module>
-		<!--<module>org.rebecalang.afra.repository</module>-->
+		<module>org.rebecalang.afra.repository</module>
 		<module>org.rebecalang.afra.target</module>
 	</modules>
 
