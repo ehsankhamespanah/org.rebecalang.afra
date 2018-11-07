@@ -34,7 +34,7 @@ jobs: # a collection of steps
       - persist_to_workspace: 
           root: /home/circleci
           paths:
-            - afra
+            - afra/org.rebecalang.afra.repository/target/products/
 
   deploy_release: # runs not using Workflows must have a `build` job as entry point
     docker: # run the steps with Docker
@@ -46,7 +46,7 @@ jobs: # a collection of steps
       - attach_workspace:
           at: /home/circleci
 
-      - run: ls ~/.m2/repository/org/rebecalang/afra/
+      - run: ls 
       - run: go get github.com/aktau/github-release
       #- run: git config user.name $CIRCLE_PROJECT_USERNAME
       - run: echo "$CIRCLE_PROJECT_USERNAME"
