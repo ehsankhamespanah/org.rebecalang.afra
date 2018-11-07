@@ -28,5 +28,6 @@ jobs: # a collection of steps
             - ~/.m2
           key: afra
       - run: git config user.name $CIRCLE_PROJECT_USERNAME
-      - run: gren --override --data-source=commits
+      - run: echo "$CIRCLE_PROJECT_USERNAME"
+      - run: echo "$CIRCLE_TAG"
       - run: github-release upload --user $CIRCLE_PROJECT_USERNAME --repo $CIRCLE_PROJECT_REPONAME --tag $CIRCLE_TAG --name "~/org.rebecalang.afra.repository/target/products/org.rebecalang.afra.ideplugins-macosx.cocoa.x86_64.tar.gz" --file org.rebecalang.afra.ideplugins-macosx.cocoa.x86_64.tar.gz
