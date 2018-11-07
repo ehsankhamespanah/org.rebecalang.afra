@@ -12,7 +12,7 @@ jobs: # a collection of steps
       - checkout # check out source code to working directory
 
       - restore_cache: # restore the saved cache after the first run or if `pom.xml` has changed
-          key: afra-{{ checksum "pom.xml" }}
+          key: afra
 
       - run: wget https://raw.githubusercontent.com/rebeca-lang/org.rebecalang.rmc/master/target/rmc-2.7.5.jar
       - run: mvn -N install:install-file -Dfile=rmc-2.7.5.jar -DgroupId=org.rebecalang -DartifactId=rmc -Dversion=2.7.5 -Dpackaging=jar
@@ -22,12 +22,12 @@ jobs: # a collection of steps
       - run: mvn -N install:install-file -Dfile=statespacetransformer-1.0.0.jar -DgroupId=org.rebecalang -DartifactId=statespacetransformer -Dversion=1.0.0 -Dpackaging=jar
       #- run: mvn dependency:go-offline # gets the project dependencies
 
+      - run: mvn install # run the actual tests
+
       - save_cache: # saves the project dependencies
           paths:
             - ~/.m2
-          key: afra-{{ checksum "pom.xml" }}
-
-      - run: mvn install # run the actual tests
+          key: afra
 
       - store_test_results: # uploads the test metadata from the `target/surefire-reports` directory so that it can show up in the CircleCI dashboard. 
           path: target/surefire-reports
