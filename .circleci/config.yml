@@ -31,7 +31,7 @@ jobs: # a collection of steps
             - ~/.m2
           key: afra
 
-  build2: # runs not using Workflows must have a `build` job as entry point
+  deploy: # runs not using Workflows must have a `build` job as entry point
     docker: # run the steps with Docker
       - image: circleci/golang:1.8
 
@@ -43,3 +43,11 @@ jobs: # a collection of steps
       - run: echo "$CIRCLE_PROJECT_USERNAME"
       - run: echo "$CIRCLE_TAG"
       - run: github-release upload --user $CIRCLE_PROJECT_USERNAME --repo $CIRCLE_PROJECT_REPONAME --tag release --name "~/org.rebecalang.afra.repository/target/products/org.rebecalang.afra.ideplugins-macosx.cocoa.x86_64.tar.gz" --file org.rebecalang.afra.ideplugins-macosx.cocoa.x86_64.tar.gz
+workflows:
+  version: 2
+  build_and_deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
