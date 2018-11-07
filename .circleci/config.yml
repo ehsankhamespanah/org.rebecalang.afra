@@ -30,8 +30,8 @@ jobs: # a collection of steps
           paths:
             - ~/.m2
           key: afra
-      - run: go get github.com/aktau/github-release
-      - run: git config user.name $CIRCLE_PROJECT_USERNAME
-      - run: echo "$CIRCLE_PROJECT_USERNAME"
-      - run: echo "$CIRCLE_TAG"
-      - run: github-release upload --user $CIRCLE_PROJECT_USERNAME --repo $CIRCLE_PROJECT_REPONAME --tag release --name "~/org.rebecalang.afra.repository/target/products/org.rebecalang.afra.ideplugins-macosx.cocoa.x86_64.tar.gz" --file org.rebecalang.afra.ideplugins-macosx.cocoa.x86_64.tar.gz
+      #- run: go get github.com/aktau/github-release
+      #- run: git config user.name $CIRCLE_PROJECT_USERNAME
+      #- run: echo "$CIRCLE_PROJECT_USERNAME"
+      #- run: echo "$CIRCLE_TAG"
+      #- run: github-release upload --user $CIRCLE_PROJECT_USERNAME --repo $CIRCLE_PROJECT_REPONAME --tag release --name "~/org.rebecalang.afra.repository/target/products/org.rebecalang.afra.ideplugins-macosx.cocoa.x86_64.tar.gz" --file org.rebecalang.afra.ideplugins-macosx.cocoa.x86_64.tar.gz
