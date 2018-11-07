@@ -51,7 +51,7 @@ jobs: # a collection of steps
       #- run: git config user.name $CIRCLE_PROJECT_USERNAME
       - run: echo "$CIRCLE_PROJECT_USERNAME"
       - run: echo "$CIRCLE_TAG"
-      - run: github-release upload --user $CIRCLE_PROJECT_USERNAME --repo $CIRCLE_PROJECT_REPONAME --tag release --file "~/org.rebecalang.afra.repository/target/products/org.rebecalang.afra.ideplugins-macosx.cocoa.x86_64.tar.gz" --name org.rebecalang.afra.ideplugins-macosx.cocoa.x86_64.tar.gz
+      - run: github-release upload --user $CIRCLE_PROJECT_USERNAME --repo $CIRCLE_PROJECT_REPONAME --tag release --file "org.rebecalang.afra.repository/target/products/org.rebecalang.afra.ideplugins-macosx.cocoa.x86_64.tar.gz" --name org.rebecalang.afra.ideplugins-macosx.cocoa.x86_64.tar.gz
 
 workflows:
   version: 2
