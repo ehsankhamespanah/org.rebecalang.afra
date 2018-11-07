@@ -1,6 +1,6 @@
 version: 2 # use CircleCI 2.0
 jobs: # a collection of steps
-  build-products: # runs not using Workflows must have a `build` job as entry point
+  build_products: # runs not using Workflows must have a `build` job as entry point
 
     docker: # run the steps with Docker
       - image: circleci/openjdk:10-jdk # ...with this image as the primary container; this is where all `steps` will run
@@ -31,7 +31,7 @@ jobs: # a collection of steps
             - ~/.m2
           key: afra
 
-  deploy-release: # runs not using Workflows must have a `build` job as entry point
+  deploy_release: # runs not using Workflows must have a `build` job as entry point
     docker: # run the steps with Docker
       - image: circleci/golang:1.8
 
@@ -48,7 +48,7 @@ workflows:
   version: 2
   build_and_deploy:
     jobs:
-      - build-products
-      - deploy-release:
+      - build_products
+      - deploy_release:
           requires:
-            - build
+            - build_products
