@@ -38,6 +38,8 @@ jobs: # a collection of steps
     working_directory: ~/afra # directory where steps will run
 
     steps: # a collection of executable commands
+      - restore_cache: # restore the saved cache after the first run or if `pom.xml` has changed
+          key: afra
       - run: ls ~/.m2/repository/org/rebecalang/afra/repository/3.0.0-SNAPSHOT/
       - run: go get github.com/aktau/github-release
       #- run: git config user.name $CIRCLE_PROJECT_USERNAME
