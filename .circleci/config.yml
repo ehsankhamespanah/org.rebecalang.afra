@@ -30,6 +30,7 @@ jobs: # a collection of steps
           paths:
             - ~/.m2
           key: afra
+          force: yes
       - run: ls ~/.m2/repository/org/rebecalang/afra/
 
   deploy_release: # runs not using Workflows must have a `build` job as entry point
